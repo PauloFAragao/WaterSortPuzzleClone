@@ -20,14 +20,14 @@ public class BottleController : MonoBehaviour
     private int rotationIndex = 0;
 
     //[Range(0, 4)]
-    public int numberOfColorsInBottle { get; private set; }
+    public int numberOfColorsInBottle; //{ get; private set; }
 
     public Color topColor { get; private set; }
     private int numberOfTopColorLayers = 1;
 
     public BottleController bottleControllerRef;
 
-    private int numberOfColorsToTransfer = 0;
+    [SerializeField] private int numberOfColorsToTransfer = 0;
 
     [SerializeField] private Transform leftRotationPoint;
     [SerializeField] private Transform rightRotationPoint;
@@ -46,7 +46,7 @@ public class BottleController : MonoBehaviour
     private LevelBuilder lb;
     private int index;
 
-    private void Awake() 
+    private void Awake()
     {
         //SetColors(new Color[4] {bottleColors[0], bottleColors[1], bottleColors[2], bottleColors[3]} , 4);
     }
@@ -475,6 +475,11 @@ public class BottleController : MonoBehaviour
         transform.position = endPosition;
 
     }
+
+
+
+
+
 
     public void AnimateBottle(Vector3 finalPosition, float duration)
     {

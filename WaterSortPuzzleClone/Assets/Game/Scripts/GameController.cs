@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
 
             if (hit.collider != null)
             {
+                //Debug.Log("click");
+
                 if (hit.collider.GetComponent<BottleController>() != null)
                 {
                     if (FirstBottle == null)
@@ -31,10 +33,8 @@ public class GameController : MonoBehaviour
                         }
 
                         if (FirstBottle.numberOfColorsInBottle == 0)
-                        {
                             FirstBottle = null;
-                        }
-
+                        
                         else
                             FirstBottle.Selected();
                     }

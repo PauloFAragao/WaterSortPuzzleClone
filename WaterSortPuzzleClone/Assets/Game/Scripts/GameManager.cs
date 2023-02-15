@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        level = 5;
+        level = 0;
     }
 
     private void OnDestroy()
