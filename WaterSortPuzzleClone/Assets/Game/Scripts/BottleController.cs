@@ -4,51 +4,52 @@ using UnityEngine;
 
 public class BottleController : MonoBehaviour
 {
-    public Color[] bottleColors;
-    public SpriteRenderer bottleMaskSR;
+    [SerializeField] private Color[] bottleColors;
+    [SerializeField] private SpriteRenderer bottleMaskSR;
 
-    public float timeToRotate = 1f;
-    public float moveAnimationTime = 1f;
+    [SerializeField] private float timeToRotate = 1f;
+    [SerializeField] private float moveAnimationTime = 1f;
 
-    public AnimationCurve ScaleAndRotationMultiplierCurve;
-    public AnimationCurve FillAmountCurve;
-    public AnimationCurve RotationSpeedMultiplier;
+    [SerializeField] private AnimationCurve ScaleAndRotationMultiplierCurve;
+    [SerializeField] private AnimationCurve FillAmountCurve;
+    [SerializeField] private AnimationCurve RotationSpeedMultiplier;
 
-    public float[] fillAmounts;
-    public float[] rotationValues;
+    [SerializeField] private float[] fillAmounts;
+    [SerializeField] private float[] rotationValues;
 
     private int rotationIndex = 0;
 
-    [Range(0, 4)]
-    public int numberOfColorsInBottle = 4;
+    //[Range(0, 4)]
+    public int numberOfColorsInBottle { get; private set; }
 
-    public Color topColor;
-    public int numberOfTopColorLayers = 1;
+    public Color topColor { get; private set; }
+    private int numberOfTopColorLayers = 1;
 
     public BottleController bottleControllerRef;
 
     private int numberOfColorsToTransfer = 0;
 
-    public Transform leftRotationPoint;
-    public Transform rightRotationPoint;
+    [SerializeField] private Transform leftRotationPoint;
+    [SerializeField] private Transform rightRotationPoint;
     private Transform chosenRotationPoint;
 
     private float directionMultiplier = 1f;
-
-    Vector3 originalPosition;
-    Vector3 startPosition;
-    Vector3 endPosition;
-
-    public LineRenderer lineRenderer;
-
+    private Vector3 originalPosition;
+    private Vector3 startPosition;
+    private Vector3 endPosition;
+    [SerializeField] private LineRenderer lineRenderer;
     private bool done = false;
-
     private bool isFilling;
     private bool isBeingFilled;
 
     //variaveis para condição de vitoria
     private LevelBuilder lb;
     private int index;
+
+    private void Awake() 
+    {
+        //SetColors(new Color[4] {bottleColors[0], bottleColors[1], bottleColors[2], bottleColors[3]} , 4);
+    }
 
     void Start()
     {
@@ -111,7 +112,7 @@ public class BottleController : MonoBehaviour
         StartCoroutine(MoveBottle());
     }
 
-    public void SetColors(int pos, Color color)
+    private void SetColors(int pos, Color color)
     {
         bottleColors[pos] = color;
     }
@@ -243,11 +244,6 @@ public class BottleController : MonoBehaviour
         lb.setDone(index);
     }
 
-    // public void SetIsFilling(bool value)
-    // {
-    //     isFilling = value;
-    // }
-
     public bool GetIsFilling()
     {
         return isFilling;
@@ -263,8 +259,27 @@ public class BottleController : MonoBehaviour
         isBeingFilled = value;
     }
 
+    public void SetColors(Color[] colors, int numberOfColors)
+    {
+        numberOfColorsInBottle = numberOfColors;
+
+        //bottleColors[0] = colors[0];
+        //bottleColors[0] = colors[0];
+        //bottleColors[0] = colors[0];
+        //bottleColors[0] = colors[0];
+
+        int x = 0;
+
+        foreach (Color color in colors)
+        {
+            bottleColors[x] = color;
+            x++;
+        }
+
+    }
+
     //animação que vai rotacionar o recipiente
-    IEnumerator RotateBottle()
+    private IEnumerator RotateBottle()
     {
         float t = 0;
         float lerpValue;
@@ -276,7 +291,7 @@ public class BottleController : MonoBehaviour
         float rotationSpeed = timeToRotate * numberOfColorsToTransfer;
 
         while (t < rotationSpeed)
-        {   
+        {
             lerpValue = t / rotationSpeed;
             angleValue = Mathf.Lerp(0f, directionMultiplier * rotationValues[rotationIndex], lerpValue);
 
@@ -327,7 +342,7 @@ public class BottleController : MonoBehaviour
     }
 
     //animação que vai rotacionar de volta
-    IEnumerator RotateBottleBack()
+    private IEnumerator RotateBottleBack()
     {
         float t = 0;
         float lerpValue;
@@ -370,7 +385,7 @@ public class BottleController : MonoBehaviour
     }
 
     //animação que vai mover o recipiente para proximo do outro recipiente
-    IEnumerator MoveBottle()
+    private IEnumerator MoveBottle()
     {
         startPosition = transform.position;
         if (chosenRotationPoint == leftRotationPoint)
@@ -395,7 +410,7 @@ public class BottleController : MonoBehaviour
     }
 
     //animação que vai mover o recipiente de volta para o lugar
-    IEnumerator MoveBottleBack()
+    private IEnumerator MoveBottleBack()
     {
         startPosition = transform.position;
         endPosition = originalPosition;
@@ -420,7 +435,7 @@ public class BottleController : MonoBehaviour
     }
 
     //animação de recipiente selecionado
-    IEnumerator SelectedBottle()
+    private IEnumerator SelectedBottle()
     {
         startPosition = transform.position;
         endPosition = new Vector3(transform.position.x, transform.position.y + 0.15f, transform.position.z);
@@ -441,7 +456,7 @@ public class BottleController : MonoBehaviour
     }
 
     //animação de recipiente selecionado desselecionado
-    IEnumerator UnselectedBottle()
+    private IEnumerator UnselectedBottle()
     {
         startPosition = transform.position;
         endPosition = new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z);
@@ -460,4 +475,39 @@ public class BottleController : MonoBehaviour
         transform.position = endPosition;
 
     }
+
+    public void AnimateBottle(Vector3 finalPosition, float duration)
+    {
+        StartCoroutine(MoveAnimation(finalPosition, duration));
+    }
+
+    //animação de movimentação
+    private IEnumerator MoveAnimation(Vector3 finalPosition, float duration)
+    {
+        Vector3 inicialPosition = transform.position;
+
+        float t = 0;
+
+        while (t <= duration)
+        {
+            transform.position = Vector3.Lerp(inicialPosition, finalPosition, (t / duration));
+
+            t += Time.deltaTime * 2;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        transform.position = finalPosition;
+
+        //bottlesController.SetPermissionToSpawnBottles(true);
+    }
+
+
 }
+
+/*
+*   -Alterar as variáveis que podem ser privadas para privado
+*   -criar métodos set e get necessários
+*   -usar o método MoveAnimation ao invés dos métodos atuais para mover o recipiente
+*   -Otimizações gerais
+*/

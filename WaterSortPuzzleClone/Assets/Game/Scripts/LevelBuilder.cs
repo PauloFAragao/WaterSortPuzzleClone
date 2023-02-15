@@ -121,11 +121,9 @@ public class LevelBuilder : MonoBehaviour
     private void InstantiateBottle(int numberOfColors, int color1, int color2, int color3, int color4, int index, Vector3 position)
     {
         var bottle = Instantiate(bottlePreFab, position, Quaternion.identity);
-        bottle.numberOfColorsInBottle = numberOfColors;
-        bottle.bottleColors[0] = colors[color1];//cor do fundo
-        bottle.bottleColors[1] = colors[color2];//segunda cor
-        bottle.bottleColors[2] = colors[color3];//terceira cor
-        bottle.bottleColors[3] = colors[color4];//quarta cor - cor do topo
+        
+        bottle.SetColors( new Color[4] {colors[color1], colors[color2], colors[color3], colors[color4]} , numberOfColors);
+
         bottle.UpdateColorsOnShader();
         bottle.setIndex(index, this);
     }
@@ -385,3 +383,7 @@ public class LevelBuilder : MonoBehaviour
     }
 
 }
+
+/*
+*   -MOVER TUDO DESSA CLASSE PARA AS CLASSES: GameManager e LevelsData
+*/

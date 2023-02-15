@@ -26,15 +26,12 @@ public class GameController : MonoBehaviour
 
                         if (FirstBottle.GetIsBeingFilled() || FirstBottle.GetIsFilling())
                         {
-                            //Debug.Log("isfilling");
                             FirstBottle = null;
                             return;
                         }
 
-
-                        if (FirstBottle.GetDone() || FirstBottle.numberOfColorsInBottle == 0)
+                        if (FirstBottle.numberOfColorsInBottle == 0)
                         {
-                            //Debug.Log("isDone");
                             FirstBottle = null;
                         }
 
@@ -76,19 +73,14 @@ public class GameController : MonoBehaviour
                                 FirstBottle = hit.collider.GetComponent<BottleController>();
                                 if (FirstBottle.GetIsBeingFilled())
                                 {
-                                    //Debug.Log("isfilling");
                                     FirstBottle = null;
                                     return;
                                 }
                                 if (FirstBottle.GetDone() || FirstBottle.numberOfColorsInBottle == 0)
-                                {
-                                    //Debug.Log("isDone");
                                     FirstBottle = null;
-                                }
+                                
                                 else
                                     FirstBottle.Selected();
-
-                                //FirstBottle = null;
                             }
                         }
                     }

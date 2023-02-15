@@ -41,8 +41,13 @@ Material:
     - _FillAmount: 0.34
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _SARM: 1
     - _ScaleAndRotationMutiplier: 1
     m_Colors:
+    - _C1: {r: 1, g: 0.03301889, b: 0.03301889, a: 1}
+    - _C2: {r: 1, g: 0.9766232, b: 0, a: 1}
+    - _C3: {r: 0.04813729, g: 0.02352941, b: 1, a: 1}
+    - _C4: {r: 0, g: 1, b: 0.01689792, a: 1}
     - _Color01: {r: 1, g: 0.03301889, b: 0.03301889, a: 0}
     - _Color02: {r: 1, g: 0.899874, b: 0, a: 1}
     - _Color03: {r: 0.5161495, g: 1, b: 0.0235849, a: 1}

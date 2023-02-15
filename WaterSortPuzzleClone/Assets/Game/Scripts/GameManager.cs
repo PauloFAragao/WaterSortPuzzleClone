@@ -19,14 +19,14 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        //level = 6;
+        level = 5;
     }
 
     private void OnDestroy()
     {
         if (Instance == this) Instance = null;
     }
-    
+
     public void NextLevel()
     {
         level++;

@@ -2755,7 +2755,7 @@
     "m_DefaultRefNameVersion": 1,
     "m_RefNameGeneratedByDisplayName": "ScaleAndRotationMutiplier",
     "m_DefaultReferenceName": "_ScaleAndRotationMutiplier",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_SARM",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
     "m_CustomSlotLabel": "",
@@ -2764,9 +2764,9 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": 1.0,
-    "m_FloatType": 0,
+    "m_FloatType": 1,
     "m_RangeValues": {
-        "x": 0.0,
+        "x": 0.2800000011920929,
         "y": 1.0
     }
 }
