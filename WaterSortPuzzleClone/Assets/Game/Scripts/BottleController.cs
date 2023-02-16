@@ -96,6 +96,15 @@ public class BottleController : MonoBehaviour
             bottleControllerRef.SetColors(bottleControllerRef.numberOfColorsInBottle + i, topColor);
         }
 
+        //gambiarra pra resolver o bug visual gerado pela falta de sincronia entre o recipiente que joga o liquido e o recipiente que recebe
+        if (bottleControllerRef.numberOfColorsInBottle < 4)
+        {
+            for (int i = bottleControllerRef.numberOfColorsInBottle; i < 4; i++)
+            {
+                bottleControllerRef.SetColors(i, topColor);
+            }
+        }
+
         //método que vai enviar para o material as cores dentro do recipiente
         bottleControllerRef.UpdateColorsOnShader();
 

@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 5621608290894066263}
   - component: {fileID: 4053009413791580371}
   m_Layer: 0
-  m_Name: Bottle1 (1)
+  m_Name: New Bottle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,7 +349,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.002665341, y: 0}
+  m_Offset: {x: 0.00023275614, y: 0.0035871267}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -360,7 +360,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25904763, y: 1}
+  m_Size: {x: 0.35136235, y: 1.0412304}
   m_EdgeRadius: 0
 --- !u!114 &4053009413791580371
 MonoBehaviour:
@@ -380,7 +380,7 @@ MonoBehaviour:
   - {r: 0.16037735, g: 0.6415094, b: 0.16037735, a: 1}
   - {r: 0.16037735, g: 0.6415094, b: 0.16037735, a: 1}
   bottleMaskSR: {fileID: 5959039919048075820}
-  timeToRotate: 0.5
+  timeToRotate: 0.4
   moveAnimationTime: 0.5
   ScaleAndRotationMultiplierCurve:
     serializedVersion: 2

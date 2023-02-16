@@ -121,8 +121,8 @@ public class LevelBuilder : MonoBehaviour
     private void InstantiateBottle(int numberOfColors, int color1, int color2, int color3, int color4, int index, Vector3 position)
     {
         var bottle = Instantiate(bottlePreFab, position, Quaternion.identity);
-        
-        bottle.SetColors( new Color[4] {colors[color1], colors[color2], colors[color3], colors[color4]} , numberOfColors);
+
+        bottle.SetColors(new Color[4] { colors[color1], colors[color2], colors[color3], colors[color4] }, numberOfColors);
 
         bottle.UpdateColorsOnShader();
         bottle.setIndex(index, this);
@@ -358,28 +358,27 @@ public class LevelBuilder : MonoBehaviour
         InstantiateBottle(4, 9, 7, 5, 7, 0, positions[8].position);
 
         //bottle 1
-        InstantiateBottle(4, 1, 10, 9, 0, 1, positions[10].position);
+        InstantiateBottle(4, 1, 10, 9, 0, 1, positions[9].position);
 
         //bottle 2
-        InstantiateBottle(4, 7, 6, 6, 5, 2, positions[12].position);
+        InstantiateBottle(4, 7, 6, 6, 5, 2, positions[10].position);
 
         //bottle 3
-        InstantiateBottle(4, 9, 1, 1, 5, 3, positions[15].position);
-
+        InstantiateBottle(4, 9, 1, 1, 5, 3, positions[11].position);
         //bottle 4
-        InstantiateBottle(4, 10, 10, 5, 0, 4, positions[17].position);
+        InstantiateBottle(4, 10, 10, 5, 0, 4, positions[12].position);
 
         //bottle 5
-        InstantiateBottle(4, 7, 0, 6, 6, 5, positions[19].position);
+        InstantiateBottle(4, 7, 0, 6, 6, 5, new Vector3(positions[15].position.x + 0.2f, positions[15].position.y, positions[15].position.z));
 
         //bottle 6
-        InstantiateBottle(4, 0, 9, 1, 10, 6, positions[21].position);
+        InstantiateBottle(4, 0, 9, 1, 10, 6, new Vector3(positions[16].position.x + 0.2f, positions[16].position.y, positions[16].position.z));
 
         //bottle 7
-        InstantiateBottle(0, 7, positions[23].position);
+        InstantiateBottle(0, 7, new Vector3(positions[17].position.x + 0.2f, positions[17].position.y, positions[17].position.z));
 
         //bottle 8
-        InstantiateBottle(0, 8, positions[25].position);
+        InstantiateBottle(0, 8, new Vector3(positions[18].position.x + 0.2f, positions[18].position.y, positions[18].position.z));
     }
 
 }
