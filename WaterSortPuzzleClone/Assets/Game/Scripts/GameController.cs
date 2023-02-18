@@ -74,7 +74,7 @@ public class GameController : MonoBehaviour
                                     FirstBottle = null;
                                     return;
                                 }
-                                if (FirstBottle.GetDone() || FirstBottle.numberOfColorsInBottle == 0)
+                                if (FirstBottle.CheckIfItsDone() || FirstBottle.numberOfColorsInBottle == 0)
                                     FirstBottle = null;
                                 
                                 else

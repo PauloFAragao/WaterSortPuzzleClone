@@ -12,9 +12,6 @@ public class BottlesController : MonoBehaviour
     private BottleController[] bottleController;
     //private List<BottleController> bottleController;
 
-    //array que vai ser usado para verificar se todas os recipientes estão completos
-    private bool[] bottlesComplete;
-
     //variável que indica a quantidade de recipientes na tela
     private int bottlesAmount = 0;
 
@@ -39,32 +36,32 @@ public class BottlesController : MonoBehaviour
         //enviando o index do array
         bottle.setIndex(bottlesIndex, this);
 
-
-        //bottleController[bottlesIndex] = bottle;
+        bottleController[bottlesIndex] = bottle;
 
         //adicionando 1 ao contador
         bottlesIndex++;
     }
 
-    //método que vai ser chamado por BottleController para indicar que o recipiente está completo
-    public void setDone(int index, bool done)
-    {
-        bottlesComplete[index] = done;
-
-        if (VerifyVictory())
-            LoadNextLevel();
-    }
-
     //método que vai varrer o array para verificar a vitoria
-    private bool VerifyVictory()
+    public void VerifyVictory()
     {
         int z = 0;
-        foreach (bool x in bottlesComplete)
+
+        for (int x = 0; x < bottlesAmount; x++)
         {
-            if (x) z++;
+            if (bottleController[x].CheckIfItsDone())
+                z++;
+
+            if(bottleController[x].CheckIfItsAnimated())
+                return;
+            
+            //Debug.Log("Verificando o recipiente num: " + x + " e ele está: " + (bottleController[x].CheckIfItsDone() ? "Completo" : "Incompleto"));
         }
 
-        return z == victoryCondition ? true : false;
+        if (z == victoryCondition)
+        {
+            LoadNextLevel();
+        }
     }
 
     //método que vai ser chamado para carregar o novo level
@@ -76,14 +73,6 @@ public class BottlesController : MonoBehaviour
     //este método vai escolher o lugar que o recipiente deve estar na tela
     public Vector3 ChooseBottlePosition(int bottle)
     {
-        /*
-            -posições
-            Vector3(0,0,0); - meio
-
-            Vector3(-1.4,0,0); - fim a esquerda
-            Vector3(1.4,0,0); - fim a direita
-        */
-
         switch (bottlesAmount)
         {
             case 2:
@@ -179,23 +168,23 @@ public class BottlesController : MonoBehaviour
 
             case 9:
                 //bottle 0
-                if (bottle == 0) return new Vector3(-1f,  0.7f, 0);
+                if (bottle == 0) return new Vector3(-1f, 0.7f, 0);
                 //bottle 1
-                if (bottle == 1) return new Vector3(-0.5f,  0.7f, 0);
+                if (bottle == 1) return new Vector3(-0.5f, 0.7f, 0);
                 //bottle 2
-                if (bottle == 2) return new Vector3(0,      0.7f, 0);
+                if (bottle == 2) return new Vector3(0, 0.7f, 0);
                 //bottle 3
-                if (bottle == 3) return new Vector3(0.5f,   0.7f, 0);
+                if (bottle == 3) return new Vector3(0.5f, 0.7f, 0);
                 //bottle 4
-                if (bottle == 4) return new Vector3(1f,   0.7f, 0);
+                if (bottle == 4) return new Vector3(1f, 0.7f, 0);
                 //bottle 5
-                if (bottle == 5) return new Vector3(-0.9f,  -0.7f, 0);
+                if (bottle == 5) return new Vector3(-0.9f, -0.7f, 0);
                 //bottle 6
-                if (bottle == 6) return new Vector3(-0.3f,  -0.7f, 0);
+                if (bottle == 6) return new Vector3(-0.3f, -0.7f, 0);
                 //bottle 7
-                if (bottle == 7) return new Vector3(0.3f,   -0.7f, 0);
+                if (bottle == 7) return new Vector3(0.3f, -0.7f, 0);
                 //bottle 8
-                if (bottle == 8) return new Vector3(0.9f,   -0.7f, 0);
+                if (bottle == 8) return new Vector3(0.9f, -0.7f, 0);
                 break;
 
         }
@@ -206,8 +195,8 @@ public class BottlesController : MonoBehaviour
     //método que vai receber a quantidade de recipientes iniciais da fase
     public void SetBottlesAmount(int bottles, int vCondition)
     {
-        //iniciando o array
-        bottlesComplete = new bool[bottles];
+        //iniciando o array dos recipientes
+        bottleController = new BottleController[bottles + 2];//+2 por que vou implementar para poder adicionar até mais 2 recipientes
 
         bottlesAmount = bottles;
         victoryCondition = vCondition;
@@ -241,14 +230,3 @@ public class BottlesController : MonoBehaviour
 
 
 }
-
-/*
-*   Classes: 
-*       -BottleController   //controla o recipiente individualmente
-*       -BottlesController  //controla os recipientes
-*       -GameController     //controla qual recipiente vai ser selecionado
-*       -GameManager        //controla dados gerais do jogo
-*       -LevelData          //contem as informações de cada level do jogo
-*
-*
-*/

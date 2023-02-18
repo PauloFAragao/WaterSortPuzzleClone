@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        level = 9;
+        level = 0;
     }
 
     private void OnDestroy()

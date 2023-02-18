@@ -37,13 +37,16 @@ public class BottleController : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 endPosition;
     [SerializeField] private LineRenderer lineRenderer;
-    private bool done = false;
+
     private bool isFilling;
     private bool isBeingFilled;
 
     //variaveis para condição de vitoria
     private BottlesController bc;
     private int index;
+
+    private bool underAnimation;
+
     private void Awake()
     {
         //SetColors(new Color[4] {bottleColors[0], bottleColors[1], bottleColors[2], bottleColors[3]} , 4);
@@ -149,9 +152,6 @@ public class BottleController : MonoBehaviour
 
             topColor = bottleColors[numberOfColorsInBottle - 1];
 
-            //para evitar bug
-            done = false;
-
             if (numberOfColorsInBottle == 4)
             {
                 if (bottleColors[3].Equals(bottleColors[2]))
@@ -161,10 +161,8 @@ public class BottleController : MonoBehaviour
                     {
                         numberOfTopColorLayers = 3;
                         if (bottleColors[1].Equals(bottleColors[0]))
-                        {
                             numberOfTopColorLayers = 4;
-                            done = true;
-                        }
+
                     }
                 }
             }
@@ -186,7 +184,6 @@ public class BottleController : MonoBehaviour
             //definindo o quanto o recipiente deve rotacionar quando fizer a animação
             rotationIndex = 3 - (numberOfColorsInBottle - numberOfTopColorLayers);
         }
-
     }
 
     //método chamado pela classe GameController para verificar se pode transferir líquido de um recipiente para o outro
@@ -250,17 +247,25 @@ public class BottleController : MonoBehaviour
         AnimateBottle(new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z), 0.5f);
     }
 
-    public bool GetDone()
+    public bool CheckIfItsDone()
     {
-        return done;
+        if (numberOfColorsInBottle == 4)
+        {
+            if (bottleColors[1].Equals(bottleColors[0]) &&
+                bottleColors[2].Equals(bottleColors[1]) &&
+                bottleColors[3].Equals(bottleColors[2]))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
-    //esse método vai ser chamado pelo outro recipiente
-    public void SetDone(bool done)
+    public bool CheckIfItsAnimated()
     {
-        bc.setDone(index, done);
+        return underAnimation;
     }
-    
+
     public bool GetIsFilling()
     {
         return isFilling;
@@ -304,8 +309,11 @@ public class BottleController : MonoBehaviour
 
         float lastAngleValue = 0;
 
+        //para que a animação corra por completo antes da fase terminar
+        underAnimation = true;
+
         //para a animação de rotacionar ser proporcional a quantidade de líquidos que serão transferidos
-        float rotationSpeed = timeToRotate * numberOfColorsToTransfer;
+        float rotationSpeed = timeToRotate + ((4 - numberOfColorsInBottle) * 0.1f) + ((numberOfColorsToTransfer - 1) * 0.1f);
 
         while (t < rotationSpeed)
         {
@@ -383,14 +391,21 @@ public class BottleController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        //atualizando o estado
         UpdateTopColorValues();
 
         angleValue = 0f;
         transform.eulerAngles = new Vector3(0, 0, angleValue);
         bottleMaskSR.material.SetFloat("_SARM", ScaleAndRotationMultiplierCurve.Evaluate(angleValue));
 
-        //enviando o estado do outro recipiente para o controladorv
-        bottleControllerRef.SetDone(bottleControllerRef.done);
+        //correção para que a animação corra por completo
+        underAnimation = false;
+
+        //verificando se o outro recipiente está cheio
+        if(bottleControllerRef.CheckIfItsDone())
+        {
+            bc.VerifyVictory();
+        }
 
         //indica que o outro recipiente não está mais enchendo
         bottleControllerRef.SetIsBeingFilled(false);
@@ -473,8 +488,6 @@ public class BottleController : MonoBehaviour
 
         //bottlesController.SetPermissionToSpawnBottles(true);
     }
-
-
 }
 
 /*
