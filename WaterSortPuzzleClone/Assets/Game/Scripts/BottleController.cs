@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BottleController : MonoBehaviour
@@ -43,9 +42,8 @@ public class BottleController : MonoBehaviour
     private bool isBeingFilled;
 
     //variaveis para condição de vitoria
-    private LevelBuilder lb;
+    private BottlesController bc;
     private int index;
-
     private void Awake()
     {
         //SetColors(new Color[4] {bottleColors[0], bottleColors[1], bottleColors[2], bottleColors[3]} , 4);
@@ -68,10 +66,16 @@ public class BottleController : MonoBehaviour
         UpdateTopColorValues();
     }
 
-    public void setIndex(int value, LevelBuilder levelBuilder)
+    /*public void setIndex(int value, LevelBuilder levelBuilder)
     {
         index = value;
         lb = levelBuilder;
+    }*/
+
+    public void setIndex(int value, BottlesController bottlesController)
+    {
+        index = value;
+        bc = bottlesController;
     }
 
     //método que vai fazer a transferência de líquidos
@@ -144,6 +148,9 @@ public class BottleController : MonoBehaviour
             numberOfTopColorLayers = 1;
 
             topColor = bottleColors[numberOfColorsInBottle - 1];
+
+            //para evitar bug
+            done = false;
 
             if (numberOfColorsInBottle == 4)
             {
@@ -234,13 +241,13 @@ public class BottleController : MonoBehaviour
     //método que vai chamar a animação de seleção
     public void Selected()
     {
-        StartCoroutine(SelectedBottle());
+        AnimateBottle(new Vector3(transform.position.x, transform.position.y + 0.15f, transform.position.z), 0.5f);
     }
 
     //método que vai chamar a animação de des seleção
     public void Unselected()
     {
-        StartCoroutine(UnselectedBottle());
+        AnimateBottle(new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z), 0.5f);
     }
 
     public bool GetDone()
@@ -248,11 +255,12 @@ public class BottleController : MonoBehaviour
         return done;
     }
 
-    public void SetDone()
+    //esse método vai ser chamado pelo outro recipiente
+    public void SetDone(bool done)
     {
-        lb.setDone(index);
+        bc.setDone(index, done);
     }
-
+    
     public bool GetIsFilling()
     {
         return isFilling;
@@ -381,11 +389,8 @@ public class BottleController : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, angleValue);
         bottleMaskSR.material.SetFloat("_SARM", ScaleAndRotationMultiplierCurve.Evaluate(angleValue));
 
-        //indica que o outro recipiente está cheio
-        if (bottleControllerRef.done)
-        {
-            bottleControllerRef.SetDone();
-        }
+        //enviando o estado do outro recipiente para o controladorv
+        bottleControllerRef.SetDone(bottleControllerRef.done);
 
         //indica que o outro recipiente não está mais enchendo
         bottleControllerRef.SetIsBeingFilled(false);
@@ -442,53 +447,6 @@ public class BottleController : MonoBehaviour
 
         isFilling = false;
     }
-
-    //animação de recipiente selecionado
-    private IEnumerator SelectedBottle()
-    {
-        startPosition = transform.position;
-        endPosition = new Vector3(transform.position.x, transform.position.y + 0.15f, transform.position.z);
-
-        float t = 0;
-
-        while (t <= 0.5)
-        {
-            transform.position = Vector3.Lerp(startPosition, endPosition, (t / 0.5f));
-
-            t += Time.deltaTime * 2;
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        transform.position = endPosition;
-
-    }
-
-    //animação de recipiente selecionado desselecionado
-    private IEnumerator UnselectedBottle()
-    {
-        startPosition = transform.position;
-        endPosition = new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z);
-
-        float t = 0;
-
-        while (t <= 0.5)
-        {
-            transform.position = Vector3.Lerp(startPosition, endPosition, (t / 0.5f));
-
-            t += Time.deltaTime * 2;
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        transform.position = endPosition;
-
-    }
-
-
-
-
-
 
     public void AnimateBottle(Vector3 finalPosition, float duration)
     {

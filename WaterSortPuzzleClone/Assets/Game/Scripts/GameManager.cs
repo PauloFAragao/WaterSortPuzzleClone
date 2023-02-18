@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -32,7 +31,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        level = 0;
+        level = 9;
     }
 
     private void OnDestroy()
@@ -43,6 +42,7 @@ public class GameManager : MonoBehaviour
     public void NextLevel()
     {
         level++;
+        SceneManager.LoadScene("SampleScene");
     }
 
 }

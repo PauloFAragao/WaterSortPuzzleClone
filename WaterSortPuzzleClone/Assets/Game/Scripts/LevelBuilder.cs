@@ -1,27 +1,13 @@
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class LevelBuilder : MonoBehaviour
 {
-    //prefab do recipiente
-    [SerializeField] private BottleController bottlePreFab;
-
-    //array de cores
-    [SerializeField] private Color[] colors;
-
-    [SerializeField] private Transform[] positions;
-
-    private bool[] indexArray;
+    //referencia ao controlador de recipientes
+    [SerializeField] private BottlesController bottlesController;
 
     void Awake()
     {
         ConfigureLevel();
-    }
-
-    private void LoadNextLevel()
-    {
-        GameManager.Instance.NextLevel();
-        SceneManager.LoadScene("SampleScene");
     }
 
     private void ConfigureLevel()
@@ -73,316 +59,249 @@ public class LevelBuilder : MonoBehaviour
         }
     }
 
-    public void setDone(int index)
-    {
-        indexArray[index] = true;
-
-        switch (GameManager.Instance.level)
-        {
-            case 0://nível 0
-                if (VerifyVictory(2)) LoadNextLevel();
-                break;
-
-            case 1://nível 1
-            case 2://nível 2
-            case 3://nível 3
-                if (VerifyVictory(3)) LoadNextLevel();
-                break;
-
-            case 4://nível 4
-            case 5://nível 5
-            case 6://nível 6
-            case 7://nível 7
-            case 8://nível 8
-                if (VerifyVictory(5)) LoadNextLevel();
-                break;
-
-            case 9://nível 9
-                if (VerifyVictory(7)) LoadNextLevel();
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    //método que vai varrer o array para verificar a vitoria
-    private bool VerifyVictory(int index)
-    {
-        int z = 0;
-        foreach (bool x in indexArray)
-        {
-            if (x) z++;
-        }
-        return z == index ? true : false;
-    }
-
-    //método que vai instanciar os recipientes
-    private void InstantiateBottle(int numberOfColors, int color1, int color2, int color3, int color4, int index, Vector3 position)
-    {
-        var bottle = Instantiate(bottlePreFab, position, Quaternion.identity);
-
-        bottle.SetColors(new Color[4] { colors[color1], colors[color2], colors[color3], colors[color4] }, numberOfColors);
-
-        bottle.UpdateColorsOnShader();
-        bottle.setIndex(index, this);
-    }
-
-    private void InstantiateBottle(int numberOfColors, int color1, int color2, int color3, int index, Vector3 position)
-    {
-        InstantiateBottle(numberOfColors, color1, color2, color3, 0, index, position);
-    }
-
-    private void InstantiateBottle(int numberOfColors, int color1, int color2, int index, Vector3 position)
-    {
-        InstantiateBottle(numberOfColors, color1, color2, 0, 0, index, position);
-    }
-
-    private void InstantiateBottle(int numberOfColors, int color1, int index, Vector3 position)
-    {
-        InstantiateBottle(numberOfColors, color1, 0, 0, 0, index, position);
-    }
-
-    private void InstantiateBottle(int numberOfColors, int index, Vector3 position)
-    {
-        InstantiateBottle(numberOfColors, 0, 0, 0, 0, index, position);
-    }
-
-    //métodos que vão criar o level
     private void MakeLevel0()
     {
-        indexArray = new bool[3];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(3, 2);
 
         //recipiente 0
-        InstantiateBottle(4, 0, 0, 3, 3, 0, positions[1].position);
+        bottlesController.SpawnBottle(0, 0, 3, 3);
 
         //recipiente 1
-        InstantiateBottle(0, 1, positions[3].position);
+        bottlesController.SpawnBottle();
 
         //recipiente 2
-        InstantiateBottle(4, 3, 3, 0, 0, 2, positions[5].position);
+        bottlesController.SpawnBottle(3, 3, 0, 0);
+
     }
 
     private void MakeLevel1()
     {
-        indexArray = new bool[4];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(4, 3);
 
         //recipiente 0
-        InstantiateBottle(4, 5, 5, 0, 3, 0, positions[9].position);
+        bottlesController.SpawnBottle(5, 5, 0, 3);
 
         //recipiente 1
-        InstantiateBottle(2, 0, 3, 1, positions[11].position);
+        bottlesController.SpawnBottle(0, 3);
 
         //recipiente 2
-        InstantiateBottle(4, 5, 5, 0, 0, 2, positions[16].position);
+        bottlesController.SpawnBottle(5, 5, 0, 0);
 
         //recipiente 3
-        InstantiateBottle(2, 3, 3, 3, positions[18].position);
+        bottlesController.SpawnBottle(3, 3);
+
     }
 
     private void MakeLevel2()
     {
-        indexArray = new bool[5];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(5, 3);
 
         //recipiente 0
-        InstantiateBottle(4, 3, 0, 8, 3, 0, positions[8].position);
+        bottlesController.SpawnBottle(3, 0, 8, 3);
 
         //recipiente 1
-        InstantiateBottle(4, 0, 0, 8, 3, 1, positions[10].position);
+        bottlesController.SpawnBottle(0, 0, 8, 3);
 
         //recipiente 2
-        InstantiateBottle(4, 8, 3, 0, 8, 2, positions[12].position);
+        bottlesController.SpawnBottle(8, 3, 0, 8);
 
         //recipiente 3
-        InstantiateBottle(0, 3, positions[16].position);
+        bottlesController.SpawnBottle();
 
         //recipiente 4
-        InstantiateBottle(0, 4, positions[18].position);
+        bottlesController.SpawnBottle();
     }
 
     private void MakeLevel3()
     {
-        indexArray = new bool[5];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(5, 3);
 
         //recipiente 0
-        InstantiateBottle(4, 1, 8, 7, 7, 0, positions[8].position);
+        bottlesController.SpawnBottle(1, 8, 7, 7);
 
         //recipiente 1
-        InstantiateBottle(4, 1, 8, 1, 8, 1, positions[10].position);
+        bottlesController.SpawnBottle(1, 8, 1, 8);
 
         //recipiente 2
-        InstantiateBottle(4, 7, 1, 8, 7, 2, positions[12].position);
+        bottlesController.SpawnBottle(7, 1, 8, 7);
 
         //recipiente 3
-        InstantiateBottle(0, 3, positions[16].position);
+        bottlesController.SpawnBottle();
 
         //recipiente 4
-        InstantiateBottle(0, 4, positions[18].position);
+        bottlesController.SpawnBottle();
     }
 
     private void MakeLevel4()
     {
-        indexArray = new bool[7];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(7, 5);
 
         //recipiente 0
-        InstantiateBottle(4, 5, 2, 7, 9, 0, positions[7].position);
+        bottlesController.SpawnBottle(5, 2, 7, 9);
 
         //recipiente 1
-        InstantiateBottle(4, 2, 5, 7, 9, 1, positions[9].position);
+        bottlesController.SpawnBottle(2, 5, 7, 9);
 
         //recipiente 2
-        InstantiateBottle(4, 9, 0, 2, 0, 2, positions[11].position);
+        bottlesController.SpawnBottle(9, 0, 2, 0);
 
         //recipiente 3
-        InstantiateBottle(4, 2, 9, 0, 7, 3, positions[13].position);
+        bottlesController.SpawnBottle(2, 9, 0, 7);
 
         //recipiente 4
-        InstantiateBottle(4, 5, 5, 0, 7, 4, positions[15].position);
+        bottlesController.SpawnBottle(5, 5, 0, 7);
 
         //recipiente 5
-        InstantiateBottle(0, 5, positions[17].position);
+        bottlesController.SpawnBottle();
 
         //recipiente 6
-        InstantiateBottle(0, 6, positions[19].position);
+        bottlesController.SpawnBottle();
     }
 
     private void MakeLevel5()
     {
-        indexArray = new bool[7];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(7, 5);
 
-        //bottle 0
-        InstantiateBottle(4, 0, 5, 5, 5, 0, positions[7].position);
+        //recipiente 0
+        bottlesController.SpawnBottle(0, 5, 5, 5);
 
-        //bottle 1
-        InstantiateBottle(4, 1, 0, 9, 5, 1, positions[9].position);
+        //recipiente 1
+        bottlesController.SpawnBottle(1, 0, 9, 5);
 
-        //bottle 2
-        InstantiateBottle(4, 9, 1, 0, 1, 2, positions[11].position);
+        //recipiente 2
+        bottlesController.SpawnBottle(9, 1, 0, 1);
 
-        //bottle 3
-        InstantiateBottle(4, 7, 9, 1, 9, 3, positions[13].position);
+        //recipiente 3
+        bottlesController.SpawnBottle(7, 9, 1, 9);
 
-        //bottle 4
-        InstantiateBottle(4, 7, 7, 7, 0, 4, positions[15].position);
+        //recipiente 4
+        bottlesController.SpawnBottle(7, 7, 7, 0);
 
-        //bottle 5
-        InstantiateBottle(0, 5, positions[17].position);
+        //recipiente 5
+        bottlesController.SpawnBottle();
 
-        //bottle 6
-        InstantiateBottle(0, 6, positions[19].position);
+        //recipiente 6
+        bottlesController.SpawnBottle();
     }
 
     private void MakeLevel6()
     {
-        indexArray = new bool[7];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(7, 5);
 
-        //bottle 0
-        InstantiateBottle(4, 5, 1, 0, 1, 0, positions[7].position);
+        //recipiente 0
+        bottlesController.SpawnBottle(5, 1, 0, 1);
 
-        //bottle 1
-        InstantiateBottle(4, 7, 7, 0, 1, 1, positions[9].position);
+        //recipiente 1
+        bottlesController.SpawnBottle(7, 7, 0, 1);
 
-        //bottle 2
-        InstantiateBottle(4, 9, 9, 7, 1, 2, positions[11].position);
+        //recipiente 2
+        bottlesController.SpawnBottle(9, 9, 7, 1);
 
-        //bottle 3
-        InstantiateBottle(4, 5, 9, 0, 7, 3, positions[13].position);
+        //recipiente 3
+        bottlesController.SpawnBottle(5, 9, 0, 7);
 
-        //bottle 4
-        InstantiateBottle(4, 5, 0, 5, 9, 4, positions[15].position);
+        //recipiente 4
+        bottlesController.SpawnBottle(5, 0, 5, 9);
 
-        //bottle 5
-        InstantiateBottle(0, 5, positions[17].position);
+        //recipiente 5
+        bottlesController.SpawnBottle();
 
-        //bottle 6
-        InstantiateBottle(0, 6, positions[19].position);
+        //recipiente 6
+        bottlesController.SpawnBottle();
     }
 
     private void MakeLevel7()
     {
-        indexArray = new bool[7];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(7, 5);
 
-        //bottle 0
-        InstantiateBottle(4, 5, 1, 5, 7, 0, positions[7].position);
+        //recipiente 0
+        bottlesController.SpawnBottle(5, 1, 5, 7);
 
-        //bottle 1
-        InstantiateBottle(4, 1, 9, 9, 1, 1, positions[9].position);
+        //recipiente 1
+        bottlesController.SpawnBottle(1, 9, 9, 1);
 
-        //bottle 2
-        InstantiateBottle(4, 9, 0, 7, 0, 2, positions[11].position);
+        //recipiente 2
+        bottlesController.SpawnBottle(9, 0, 7, 0);
 
-        //bottle 3
-        InstantiateBottle(4, 7, 0, 5, 9, 3, positions[13].position);
+        //recipiente 3
+        bottlesController.SpawnBottle(7, 0, 5, 9);
 
-        //bottle 4
-        InstantiateBottle(4, 7, 5, 0, 1, 4, positions[15].position);
+        //recipiente 4
+        bottlesController.SpawnBottle(7, 5, 0, 1);
 
-        //bottle 5
-        InstantiateBottle(0, 5, positions[17].position);
+        //recipiente 5
+        bottlesController.SpawnBottle();
 
-        //bottle 6
-        InstantiateBottle(0, 6, positions[19].position);
+        //recipiente 6
+        bottlesController.SpawnBottle();
     }
 
     private void MakeLevel8()
     {
-        indexArray = new bool[7];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(7, 5);
 
-        //bottle 0
-        InstantiateBottle(4, 9, 0, 7, 9, 0, positions[7].position);
+        //recipiente 0
+        bottlesController.SpawnBottle(9, 0, 7, 9);
 
-        //bottle 1
-        InstantiateBottle(4, 0, 5, 5, 1, 1, positions[9].position);
+        //recipiente 1
+        bottlesController.SpawnBottle(0, 5, 5, 1);
 
-        //bottle 2
-        InstantiateBottle(4, 0, 1, 1, 9, 2, positions[11].position);
+        //recipiente 2
+        bottlesController.SpawnBottle(0, 1, 1, 9);
 
-        //bottle 3
-        InstantiateBottle(4, 9, 0, 5, 7, 3, positions[13].position);
+        //recipiente 3
+        bottlesController.SpawnBottle(9, 0, 5, 7);
 
-        //bottle 4
-        InstantiateBottle(4, 5, 1, 7, 7, 4, positions[15].position);
+        //recipiente 4
+        bottlesController.SpawnBottle(5, 1, 7, 7);
 
-        //bottle 5
-        InstantiateBottle(0, 5, positions[17].position);
+        //recipiente 5
+        bottlesController.SpawnBottle();
 
-        //bottle 6
-        InstantiateBottle(0, 6, positions[19].position);
+        //recipiente 6
+        bottlesController.SpawnBottle();
     }
 
     private void MakeLevel9()
     {
-        indexArray = new bool[9];
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(9, 7);
 
-        //bottle 0
-        InstantiateBottle(4, 9, 7, 5, 7, 0, positions[8].position);
+        //recipiente 0
+        bottlesController.SpawnBottle(9, 7, 5, 7);
 
-        //bottle 1
-        InstantiateBottle(4, 1, 10, 9, 0, 1, positions[9].position);
+        //recipiente 1
+        bottlesController.SpawnBottle(1, 10, 9, 0);
 
-        //bottle 2
-        InstantiateBottle(4, 7, 6, 6, 5, 2, positions[10].position);
+        //recipiente 2
+        bottlesController.SpawnBottle(7, 6, 6, 5);
 
-        //bottle 3
-        InstantiateBottle(4, 9, 1, 1, 5, 3, positions[11].position);
-        //bottle 4
-        InstantiateBottle(4, 10, 10, 5, 0, 4, positions[12].position);
+        //recipiente 3
+        bottlesController.SpawnBottle(9, 1, 1, 5);
 
-        //bottle 5
-        InstantiateBottle(4, 7, 0, 6, 6, 5, new Vector3(positions[15].position.x + 0.2f, positions[15].position.y, positions[15].position.z));
+        //recipiente 4
+        bottlesController.SpawnBottle(10, 10, 5, 0);
 
-        //bottle 6
-        InstantiateBottle(4, 0, 9, 1, 10, 6, new Vector3(positions[16].position.x + 0.2f, positions[16].position.y, positions[16].position.z));
+        //recipiente 5
+        bottlesController.SpawnBottle(7, 0, 6, 6);
 
-        //bottle 7
-        InstantiateBottle(0, 7, new Vector3(positions[17].position.x + 0.2f, positions[17].position.y, positions[17].position.z));
+        //recipiente 6
+        bottlesController.SpawnBottle(0, 9, 1, 10);
 
-        //bottle 8
-        InstantiateBottle(0, 8, new Vector3(positions[18].position.x + 0.2f, positions[18].position.y, positions[18].position.z));
+        //recipiente 7
+        bottlesController.SpawnBottle();
+
+        //recipiente 8
+        bottlesController.SpawnBottle();
     }
 
 }
-
-/*
-*   -MOVER TUDO DESSA CLASSE PARA AS CLASSES: GameManager e LevelsData
-*/
