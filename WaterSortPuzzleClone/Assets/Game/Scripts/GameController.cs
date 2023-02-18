@@ -7,12 +7,24 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if ( Input.GetMouseButtonDown(0) )
+        //if (Input.touchCount > 0 )
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
+            //Touch t = Input.GetTouch(0);
+
+            //if(t.phase == TouchPhase.Began)
+            //{
+                //Vector2 touchPosition = t.position;
+            //}
+
+            //Vector2 touchPosition = t.position;
+
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+            //RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
 
             if (hit.collider != null)
             {

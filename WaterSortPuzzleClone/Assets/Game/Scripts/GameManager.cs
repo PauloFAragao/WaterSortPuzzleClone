@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 
     public int level { get; private set; }
 
+    public bool gamePause;
+
     private void Awake()
     {
         if (Instance != null)

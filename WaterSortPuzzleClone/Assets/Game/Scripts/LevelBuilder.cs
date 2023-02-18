@@ -1,12 +1,17 @@
 using UnityEngine;
+using TMPro;
 
 public class LevelBuilder : MonoBehaviour
 {
     //referencia ao controlador de recipientes
     [SerializeField] private BottlesController bottlesController;
 
+    [SerializeField] private TextMeshProUGUI levelText;
+
     void Awake()
     {
+        levelText.text = " Level: " + (GameManager.Instance.level + 1);
+
         ConfigureLevel();
     }
 

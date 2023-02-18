@@ -309,9 +309,6 @@ public class BottleController : MonoBehaviour
 
         float lastAngleValue = 0;
 
-        //para que a animação corra por completo antes da fase terminar
-        underAnimation = true;
-
         //para a animação de rotacionar ser proporcional a quantidade de líquidos que serão transferidos
         float rotationSpeed = timeToRotate + ((4 - numberOfColorsInBottle) * 0.1f) + ((numberOfColorsToTransfer - 1) * 0.1f);
 
@@ -416,6 +413,9 @@ public class BottleController : MonoBehaviour
     //animação que vai mover o recipiente para proximo do outro recipiente
     private IEnumerator MoveBottle()
     {
+        //para que a animação corra por completo antes da fase terminar
+        underAnimation = true;
+
         startPosition = transform.position;
         if (chosenRotationPoint == leftRotationPoint)
             endPosition = bottleControllerRef.rightRotationPoint.position;
