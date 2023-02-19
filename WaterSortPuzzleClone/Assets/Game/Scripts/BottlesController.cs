@@ -10,7 +10,6 @@ public class BottlesController : MonoBehaviour
 
     //array dos recipientes
     private BottleController[] bottleController;
-    //private List<BottleController> bottleController;
 
     //variável que indica a quantidade de recipientes na tela
     private int bottlesAmount = 0;
@@ -20,6 +19,9 @@ public class BottlesController : MonoBehaviour
 
     //variável que vai indicar a quantidade de recipientes completos é necessária para a condição de vitoria
     private int victoryCondition;
+
+    //[SerializeField] private GameController gC;
+    
 
     //este método vai instanciar os recipientes
     private void InstantiateBottle(int numberOfColors, int color1, int color2, int color3, int color4)
@@ -34,7 +36,7 @@ public class BottlesController : MonoBehaviour
         bottle.UpdateColorsOnShader();
 
         //enviando o index do array
-        bottle.setIndex(bottlesIndex, this);
+        bottle.setIndex(bottlesIndex, this/*, gC*/);
 
         bottleController[bottlesIndex] = bottle;
 
@@ -67,7 +69,8 @@ public class BottlesController : MonoBehaviour
     //método que vai ser chamado para carregar o novo level
     private void LoadNextLevel()
     {
-        GameManager.Instance.NextLevel();
+        GameManager.Instance.gamePause = true;
+        GameController.Instance.NextLevel();
     }
 
     //este método vai escolher o lugar que o recipiente deve estar na tela

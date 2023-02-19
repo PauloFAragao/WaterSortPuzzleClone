@@ -41,10 +41,11 @@ public class BottleController : MonoBehaviour
     private bool isFilling;
     private bool isBeingFilled;
 
+    //private GameController gC;
+
     //variaveis para condição de vitoria
     private BottlesController bc;
     private int index;
-
     private bool underAnimation;
 
     private void Awake()
@@ -75,10 +76,11 @@ public class BottleController : MonoBehaviour
         lb = levelBuilder;
     }*/
 
-    public void setIndex(int value, BottlesController bottlesController)
+    public void setIndex(int value, BottlesController bottlesController/*, GameController gameController*/)
     {
         index = value;
         bc = bottlesController;
+        //gC = gameController;
     }
 
     //método que vai fazer a transferência de líquidos
@@ -434,6 +436,9 @@ public class BottleController : MonoBehaviour
         }
 
         transform.position = endPosition;
+
+        //adicionando uma jogada
+        GameController.Instance.AddMove();
 
         StartCoroutine(RotateBottle());
     }

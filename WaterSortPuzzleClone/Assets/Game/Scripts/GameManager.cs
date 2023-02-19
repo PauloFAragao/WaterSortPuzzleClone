@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     public bool gamePause;
 
+    
+
     private void Awake()
     {
         if (Instance != null)
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviour
         }
 
         level = 0;
+
     }
 
     private void OnDestroy()
@@ -41,9 +44,18 @@ public class GameManager : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
-    public void NextLevel()
+    public void LoadNextLevel()
     {
-        level++;
+        gamePause = false;//retirando o game pause
+
+        level++;//incrementando o level
+
+        //carregar o level
+        SceneManager.LoadScene("SampleScene");
+    }
+
+    public void Reload()
+    {
         SceneManager.LoadScene("SampleScene");
     }
 

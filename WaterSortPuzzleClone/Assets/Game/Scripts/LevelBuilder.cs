@@ -10,7 +10,7 @@ public class LevelBuilder : MonoBehaviour
 
     void Awake()
     {
-        levelText.text = " Level: " + (GameManager.Instance.level + 1);
+        levelText.text = (GameManager.Instance.level + 1).ToString();
 
         ConfigureLevel();
     }

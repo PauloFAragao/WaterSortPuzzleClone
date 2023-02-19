@@ -1,13 +1,34 @@
 using UnityEngine;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController Instance { get; private set; }
+
     public BottleController FirstBottle;
     public BottleController SecondBottle;
 
+    //quantidade de jogadas feitas
+    private int moves = 0;
+
+    //objeto da interface - tela de proximo level
+    public GameObject nextLevelScreen;
+
+    //texto da quantidade de jogadas
+    public TextMeshProUGUI movesText;
+
+    private void Awake()
+    {
+        if (Instance != null)
+            DestroyImmediate(gameObject);
+
+        else
+            Instance = this;
+    }
+
     void Update()
     {
-        if ( Input.GetMouseButtonDown(0) )
+        if (Input.GetMouseButtonDown(0))
         //if (Input.touchCount > 0 )
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -17,7 +38,7 @@ public class GameController : MonoBehaviour
 
             //if(t.phase == TouchPhase.Began)
             //{
-                //Vector2 touchPosition = t.position;
+            //Vector2 touchPosition = t.position;
             //}
 
             //Vector2 touchPosition = t.position;
@@ -26,7 +47,7 @@ public class GameController : MonoBehaviour
 
             //RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
 
-            if (hit.collider != null)
+            if (hit.collider != null && !GameManager.Instance.gamePause)
             {
                 //Debug.Log("click");
 
@@ -44,7 +65,7 @@ public class GameController : MonoBehaviour
 
                         if (FirstBottle.numberOfColorsInBottle == 0)
                             FirstBottle = null;
-                        
+
                         else
                             FirstBottle.Selected();
                     }
@@ -88,7 +109,7 @@ public class GameController : MonoBehaviour
                                 }
                                 if (FirstBottle.CheckIfItsDone() || FirstBottle.numberOfColorsInBottle == 0)
                                     FirstBottle = null;
-                                
+
                                 else
                                     FirstBottle.Selected();
                             }
@@ -98,4 +119,23 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
+    //método que vai exibir na interface o botão para mudar de fase
+    public void NextLevel()
+    {
+        movesText.text = moves.ToString();
+        nextLevelScreen.SetActive(true);
+    }
+
+    //método para adicionar uma jogada ao contador
+    public void AddMove()
+    {
+        moves++;
+    }
+
 }
