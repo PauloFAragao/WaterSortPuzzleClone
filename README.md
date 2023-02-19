@@ -9,5 +9,8 @@ Tutorial base do youtube:
 	<br>https://youtu.be/eh2cHk_DqRI
 	<br>https://youtu.be/2widU7R0Iu4
 <br>
+Fases:
+	<br>https://www.youtube.com/watch?v=UtAxizqMnMs&list=PLSrfHO86TeWDvynXYbNrmhD-AfeW9ni1j
+<br>
 link para o pacote de botões e imagens:
 	<br>https://www.gameart2d.com/free-game-gui.html

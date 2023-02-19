@@ -15,6 +15,9 @@ public class BottlesController : MonoBehaviour
     //variável que indica a quantidade de recipientes na tela
     private int bottlesAmount = 0;
 
+    //quantidade maxima de recipientes em tela
+    private int maxBottlesAmount;
+
     //variável que vai ser usada para marcar a quantidade de recipientes já instanciados
     private int bottlesIndex = 0;
 
@@ -30,6 +33,10 @@ public class BottlesController : MonoBehaviour
     //referencia ao botão da interface de desfazer jogada
     [SerializeField] private GameObject ActiveUndoButton;
     [SerializeField] private GameObject InactiveUndoButton;
+
+    //referencia ao botão da interface de adicionar novos recipientes
+    [SerializeField] private GameObject ActivePlus;
+    [SerializeField] private GameObject InactivePlus;
 
     private void Awake()
     {
@@ -215,6 +222,7 @@ public class BottlesController : MonoBehaviour
         bottleController = new BottleController[bottles + 2];//+2 por que vou implementar para poder adicionar até mais 2 recipientes
 
         bottlesAmount = bottles;
+        maxBottlesAmount = bottles + 2;
         victoryCondition = vCondition;
     }
 
@@ -281,6 +289,36 @@ public class BottlesController : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    //método para adicionar novas bottles
+    public void AddNewBottle()
+    {
+        if (maxBottlesAmount > bottlesAmount)
+        {
+            InstantiateBottle(0, 0, 0, 0, 0);//instanciando novo recipiente
+
+            bottlesAmount++;//adicionando 1 ao contador de recipientes em tela
+
+            RelocateBottles();//reposicionando os recipientes em tela
+
+            if (maxBottlesAmount == bottlesAmount)
+            {
+                ActivePlus.SetActive(false);
+                InactivePlus.SetActive(true);
+            }
+        }
+    }
+
+    //método que vai reorganizar as bottles quando adicionar novas
+    private void RelocateBottles()
+    {
+        for (int x = 0; x < bottlesAmount; x++)
+        {
+            Vector3 position = ChooseBottlePosition(x);
+            bottleController[x].transform.position = position;
+            bottleController[x].NewOriginalPosition(position);
+        }
     }
 
     // ================================ Métodos públicos para instanciar os recipientes ================================

@@ -72,12 +72,6 @@ public class BottleController : MonoBehaviour
         UpdateTopColorValues();
     }
 
-    /*public void setIndex(int value, LevelBuilder levelBuilder)
-    {
-        index = value;
-        lb = levelBuilder;
-    }*/
-
     public void setIndex(int value, BottlesController bottlesController/*, GameController gameController*/)
     {
         index = value;
@@ -231,6 +225,11 @@ public class BottleController : MonoBehaviour
         }
     }
 
+    public void NewOriginalPosition(Vector3 position)
+    {
+        originalPosition = position;
+    }
+
     //método que vai calcular o quanto o frasco deve girar
     private void CalculateRotationIndex(int numberOfEmptySpacesInSecondBottle)
     {
@@ -332,8 +331,6 @@ public class BottleController : MonoBehaviour
         //refazendo o top color values
         UpdateTopColorValues();
     }
-
-
 
     //animação que vai rotacionar o recipiente
     private IEnumerator RotateBottle()

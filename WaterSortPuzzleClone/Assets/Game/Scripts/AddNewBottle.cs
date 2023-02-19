@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AddNewBottle : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private BottlesController bottlesController;
+
+    public void ADDButton()
     {
-        
+        if (!GameManager.Instance.gamePause)
+        {
+            bottlesController.AddNewBottle();
+        }
     }
 }
