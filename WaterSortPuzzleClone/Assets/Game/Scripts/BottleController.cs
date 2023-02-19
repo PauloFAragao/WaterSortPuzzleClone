@@ -41,16 +41,18 @@ public class BottleController : MonoBehaviour
     private bool isFilling;
     private bool isBeingFilled;
 
-    //private GameController gC;
+    //a quantidade de cores que vai ter no outro recipiente - para resolver o bug gráfico da quantidade de cores
+    private int newNumberOfColorsInOtherBottle;
+
 
     //variaveis para condição de vitoria
     private BottlesController bc;
-    private int index;
+    public int index { get; private set; }
     private bool underAnimation;
 
     private void Awake()
     {
-        //SetColors(new Color[4] {bottleColors[0], bottleColors[1], bottleColors[2], bottleColors[3]} , 4);
+        bottleColors = new Color[4];
     }
 
     void Start()
@@ -86,6 +88,9 @@ public class BottleController : MonoBehaviour
     //método que vai fazer a transferência de líquidos
     public void StartColorTransfer()
     {
+        //pegando a quantidade de cores no outro recipiente
+        newNumberOfColorsInOtherBottle = bottleControllerRef.numberOfColorsInBottle;
+
         //indica que o outro recipiente está enchendo
         bottleControllerRef.SetIsBeingFilled(true);
         isFilling = true;
@@ -96,6 +101,12 @@ public class BottleController : MonoBehaviour
         //aqui vai verificar quantas cores vai passar para o outro recipiente
         //verificando qual é o menor número entre a quantidade de cores iguais no topo ou a quantidade de espaços vazios no outro recipiente
         numberOfColorsToTransfer = Mathf.Min(numberOfTopColorLayers, 4 - bottleControllerRef.numberOfColorsInBottle);
+
+        //somando a quantidade de cores que tem que passar
+        newNumberOfColorsInOtherBottle += numberOfColorsToTransfer;
+
+        //criando histórico
+        bc.CreateHistoric(index, GetColors(), numberOfColorsInBottle, bottleControllerRef.index, bottleControllerRef.GetColors(), bottleControllerRef.numberOfColorsInBottle);
 
         //transferência lógica
         for (int i = 0; i < numberOfColorsToTransfer; i++)
@@ -128,6 +139,16 @@ public class BottleController : MonoBehaviour
 
         //iniciando a animação
         StartCoroutine(MoveBottle());
+    }
+
+    public bool GetUnderAnimation()
+    {
+        return underAnimation;
+    }
+
+    public Color[] GetColors()
+    {
+        return new Color[] { bottleColors[0], bottleColors[1], bottleColors[2], bottleColors[3] };
     }
 
     private void SetColors(int pos, Color color)
@@ -222,6 +243,13 @@ public class BottleController : MonoBehaviour
         bottleMaskSR.material.SetFloat("_FillAmount", bottleMaskSR.material.GetFloat("_FillAmount") + fillAmountToAdd);
     }
 
+    //método para ajustar o fill amount e evitar o bug dos recipientes com quantidades diferentes de líquidos
+    public void AdjustFillAmount(int value)
+    {
+
+        bottleMaskSR.material.SetFloat("_FillAmount", fillAmounts[value]);
+    }
+
     //método que vai verificar para qual lado o recipiente deve rotacionar 
     private void ChoseRotationPointAndDirection()
     {
@@ -287,11 +315,6 @@ public class BottleController : MonoBehaviour
     {
         numberOfColorsInBottle = numberOfColors;
 
-        //bottleColors[0] = colors[0];
-        //bottleColors[0] = colors[0];
-        //bottleColors[0] = colors[0];
-        //bottleColors[0] = colors[0];
-
         int x = 0;
 
         foreach (Color color in colors)
@@ -300,7 +323,17 @@ public class BottleController : MonoBehaviour
             x++;
         }
 
+        //enviando as cores para o shader
+        UpdateColorsOnShader();
+
+        //enviando o fillAmount
+        bottleMaskSR.material.SetFloat("_FillAmount", fillAmounts[numberOfColorsInBottle]);
+
+        //refazendo o top color values
+        UpdateTopColorValues();
     }
+
+
 
     //animação que vai rotacionar o recipiente
     private IEnumerator RotateBottle()
@@ -353,6 +386,9 @@ public class BottleController : MonoBehaviour
         bottleMaskSR.material.SetFloat("_SARM", ScaleAndRotationMultiplierCurve.Evaluate(angleValue));
         bottleMaskSR.material.SetFloat("_FillAmount", FillAmountCurve.Evaluate(angleValue));
 
+        //corrigindo bug de quantidade de liquido no outro recipiente
+        bottleControllerRef.AdjustFillAmount(newNumberOfColorsInOtherBottle);
+
         //numberOfColorsInBottle -= numberOfTopColorLayers;
         numberOfColorsInBottle -= numberOfColorsToTransfer;
 
@@ -364,6 +400,8 @@ public class BottleController : MonoBehaviour
 
         StartCoroutine(RotateBottleBack());
     }
+
+
 
     //animação que vai rotacionar de volta
     private IEnumerator RotateBottleBack()
@@ -401,7 +439,7 @@ public class BottleController : MonoBehaviour
         underAnimation = false;
 
         //verificando se o outro recipiente está cheio
-        if(bottleControllerRef.CheckIfItsDone())
+        if (bottleControllerRef.CheckIfItsDone())
         {
             bc.VerifyVictory();
         }

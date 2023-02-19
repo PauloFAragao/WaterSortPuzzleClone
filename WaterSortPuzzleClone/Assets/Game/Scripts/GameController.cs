@@ -53,6 +53,7 @@ public class GameController : MonoBehaviour
 
                 if (hit.collider.GetComponent<BottleController>() != null)
                 {
+                    
                     if (FirstBottle == null)
                     {
                         FirstBottle = hit.collider.GetComponent<BottleController>();

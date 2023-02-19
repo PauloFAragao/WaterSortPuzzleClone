@@ -1,3 +1,4 @@
+using UnityEngine.UI;
 using UnityEngine;
 
 public class BottlesController : MonoBehaviour
@@ -20,8 +21,20 @@ public class BottlesController : MonoBehaviour
     //variável que vai indicar a quantidade de recipientes completos é necessária para a condição de vitoria
     private int victoryCondition;
 
-    //[SerializeField] private GameController gC;
-    
+    //histórico de jogadas
+    private Historic[] historic;
+
+    //quantidade de vezes que pode voltar
+    private int availableUndo = 0;
+
+    //referencia ao botão da interface de desfazer jogada
+    [SerializeField] private GameObject ActiveUndoButton;
+    [SerializeField] private GameObject InactiveUndoButton;
+
+    private void Awake()
+    {
+        historic = new Historic[5];
+    }
 
     //este método vai instanciar os recipientes
     private void InstantiateBottle(int numberOfColors, int color1, int color2, int color3, int color4)
@@ -33,7 +46,7 @@ public class BottlesController : MonoBehaviour
         bottle.SetColors(new Color[4] { colors[color1], colors[color2], colors[color3], colors[color4] }, numberOfColors);
 
         //chamando o uptade dentro da classe
-        bottle.UpdateColorsOnShader();
+        //bottle.UpdateColorsOnShader();
 
         //enviando o index do array
         bottle.setIndex(bottlesIndex, this/*, gC*/);
@@ -54,9 +67,9 @@ public class BottlesController : MonoBehaviour
             if (bottleController[x].CheckIfItsDone())
                 z++;
 
-            if(bottleController[x].CheckIfItsAnimated())
+            if (bottleController[x].CheckIfItsAnimated())
                 return;
-            
+
             //Debug.Log("Verificando o recipiente num: " + x + " e ele está: " + (bottleController[x].CheckIfItsDone() ? "Completo" : "Incompleto"));
         }
 
@@ -203,6 +216,71 @@ public class BottlesController : MonoBehaviour
 
         bottlesAmount = bottles;
         victoryCondition = vCondition;
+    }
+
+    public void Undo()
+    {
+        if (availableUndo > 0 && !SomeBottleIsUnderAnimation())
+        {
+            availableUndo--;
+
+            //retornando o recipiente que enviou líquidos ao estagio anterior
+            bottleController[historic[availableUndo].bottle1].SetColors(historic[availableUndo].bottle1Colors, historic[availableUndo].numberOfColorsInBottle1);
+
+            //retornando o recipiente que recebeu líquidos ao estagio anterior
+            bottleController[historic[availableUndo].bottle2].SetColors(historic[availableUndo].bottle2Colors, historic[availableUndo].numberOfColorsInBottle2);
+        }
+
+        if (availableUndo <= 0)
+        {
+            availableUndo = 0;
+            ActiveUndoButton.SetActive(false);
+            InactiveUndoButton.SetActive(true);
+        }
+    }
+
+    public void CreateHistoric(int bottle1, Color[] colorsInBottle1, int numberOfColorsInBottle1, int bottle2, Color[] colorsInBottle2, int numberOfColorsInBottle2)
+    {
+        Historic point = new Historic(bottle1, colorsInBottle1, numberOfColorsInBottle1, bottle2, colorsInBottle2, numberOfColorsInBottle2);
+
+        //verificar se é necessário mover o histórico
+        if (availableUndo == 0)
+            historic[0] = point;//guardando no array
+
+        else
+        {
+            //se tiver o array estiver cheio tem que copiar os pontos do histórico para baixo
+            if (availableUndo == 5)
+            {
+                //copiando o histórico 
+                for (int x = 0; x < availableUndo - 1; x++)
+                {
+                    historic[x] = historic[x + 1];
+                }
+
+                historic[4] = point;//guardando no array
+            }
+            else//se a quantidade de possíveis undo for menor que 5
+                historic[availableUndo] = point;
+
+        }
+
+        if (availableUndo < 5)
+            availableUndo++;
+
+        ActiveUndoButton.SetActive(true);
+        InactiveUndoButton.SetActive(false);
+    }
+
+    //método para verificar se alguma bottle está executando alguma animação
+    private bool SomeBottleIsUnderAnimation()
+    {
+        for (int x = 0; x < bottlesAmount; x++)
+        {
+            if (bottleController[x].GetUnderAnimation())
+                return true;
+        }
+        return false;
     }
 
     // ================================ Métodos públicos para instanciar os recipientes ================================
