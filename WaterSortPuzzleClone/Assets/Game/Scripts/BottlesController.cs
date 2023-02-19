@@ -247,13 +247,13 @@ public class BottlesController : MonoBehaviour
                 //bottle 5
                 if (bottle == 5) return new Vector3(1.25f, 0.7f, 0);
                 //bottle 6
-                if (bottle == 6) return new Vector3(-0.5f, -0.7f, 0);
+                if (bottle == 6) return new Vector3(-1f, -0.7f, 0);
                 //bottle 7
-                if (bottle == 7) return new Vector3(0f, -0.7f, 0);
+                if (bottle == 7) return new Vector3(-0.5f, -0.7f, 0);
                 //bottle 8
-                if (bottle == 8) return new Vector3(0.5f, -0.7f, 0);
+                if (bottle == 8) return new Vector3(0f, -0.7f, 0);
                 //bottle 9
-                if (bottle == 9) return new Vector3(1f, -0.7f, 0);
+                if (bottle == 9) return new Vector3(0.5f, -0.7f, 0);
                 //bottle 10
                 if (bottle == 10) return new Vector3(1f, -0.7f, 0);
                 break;
