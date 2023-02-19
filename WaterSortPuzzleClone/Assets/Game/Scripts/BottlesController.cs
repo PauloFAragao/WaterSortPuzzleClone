@@ -210,6 +210,54 @@ public class BottlesController : MonoBehaviour
                 if (bottle == 8) return new Vector3(0.9f, -0.7f, 0);
                 break;
 
+            case 10:
+                //bottle 0
+                if (bottle == 0) return new Vector3(-1f, 0.7f, 0);
+                //bottle 1
+                if (bottle == 1) return new Vector3(-0.5f, 0.7f, 0);
+                //bottle 2
+                if (bottle == 2) return new Vector3(0f, 0.7f, 0);
+                //bottle 3
+                if (bottle == 3) return new Vector3(0.5f, 0.7f, 0);
+                //bottle 4
+                if (bottle == 4) return new Vector3(1f, 0.7f, 0);
+                //bottle 5
+                if (bottle == 5) return new Vector3(-1f, -0.7f, 0);
+                //bottle 6
+                if (bottle == 6) return new Vector3(-0.5f, -0.7f, 0);
+                //bottle 7
+                if (bottle == 7) return new Vector3(0f, -0.7f, 0);
+                //bottle 8
+                if (bottle == 8) return new Vector3(0.5f, -0.7f, 0);
+                //bottle 9
+                if (bottle == 9) return new Vector3(1f, -0.7f, 0);
+                break;
+
+            case 11:
+                //bottle 0
+                if (bottle == 0) return new Vector3(-1.25f, 0.7f, 0);
+                //bottle 1
+                if (bottle == 1) return new Vector3(-0.75f, 0.7f, 0);
+                //bottle 2
+                if (bottle == 2) return new Vector3(-0.25f, 0.7f, 0);
+                //bottle 3
+                if (bottle == 3) return new Vector3(0.25f, 0.7f, 0);
+                //bottle 4
+                if (bottle == 4) return new Vector3(0.75f, 0.7f, 0);
+                //bottle 5
+                if (bottle == 5) return new Vector3(1.25f, 0.7f, 0);
+                //bottle 6
+                if (bottle == 6) return new Vector3(-0.5f, -0.7f, 0);
+                //bottle 7
+                if (bottle == 7) return new Vector3(0f, -0.7f, 0);
+                //bottle 8
+                if (bottle == 8) return new Vector3(0.5f, -0.7f, 0);
+                //bottle 9
+                if (bottle == 9) return new Vector3(1f, -0.7f, 0);
+                //bottle 10
+                if (bottle == 10) return new Vector3(1f, -0.7f, 0);
+                break;
+
         }
 
         return new Vector3(0, 0, 0);
@@ -294,7 +342,7 @@ public class BottlesController : MonoBehaviour
     //método para adicionar novas bottles
     public void AddNewBottle()
     {
-        if (maxBottlesAmount > bottlesAmount)
+        if (maxBottlesAmount > bottlesAmount && !SomeBottleIsUnderAnimation())
         {
             InstantiateBottle(0, 0, 0, 0, 0);//instanciando novo recipiente
 
