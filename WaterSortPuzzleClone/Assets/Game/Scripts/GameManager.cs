@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
 
     public bool gamePause;
 
-    
+    //qual esquema da cores deve ser usado
+    public int selectedColorPalette { get; private set; }
 
     private void Awake()
     {
@@ -35,6 +36,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        //paleta de cores inicial
+        selectedColorPalette = 1;
+
         level = 0;
 
     }
@@ -57,6 +61,11 @@ public class GameManager : MonoBehaviour
     public void Reload()
     {
         SceneManager.LoadScene("SampleScene");
+    }
+
+    public void SetSelectedColorPalette(int value)
+    {
+        selectedColorPalette = value;
     }
 
 }

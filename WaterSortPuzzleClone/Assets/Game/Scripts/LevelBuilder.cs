@@ -19,6 +19,10 @@ public class LevelBuilder : MonoBehaviour
     {
         switch (GameManager.Instance.level)
         {
+            case -1:
+                MakeLevelN1();
+                break;
+
             case 0://nível 0
                 MakeLevel0();
                 break;
@@ -102,6 +106,55 @@ public class LevelBuilder : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void MakeLevelN1()
+    {
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(14, 20);
+
+        //recipiente 0
+        bottlesController.SpawnBottle(0,0,0,0);
+
+        //recipiente 1
+        bottlesController.SpawnBottle(1,1,1,1);
+
+        //recipiente 2
+        bottlesController.SpawnBottle(2,2,2,2);
+
+        //recipiente 3
+        bottlesController.SpawnBottle(3,3,3,3);
+
+        //recipiente 4
+        bottlesController.SpawnBottle(4,4,4,4);
+
+        //recipiente 5
+        bottlesController.SpawnBottle(5,5,5,5);
+
+        //recipiente 6
+        bottlesController.SpawnBottle(6,6,6,6);
+
+        //recipiente 7
+        bottlesController.SpawnBottle(7,7,7,7);
+
+        //recipiente 8
+        bottlesController.SpawnBottle(8,8,8,8);
+
+        //recipiente 9
+        bottlesController.SpawnBottle(9,9,9,9);
+
+        //recipiente 10
+        bottlesController.SpawnBottle(10,10,10,10);
+
+        //recipiente 11
+        bottlesController.SpawnBottle(11,11,11,11);
+
+        //recipiente 12
+        bottlesController.SpawnBottle();
+
+        //recipiente 13
+        bottlesController.SpawnBottle();
+
     }
 
     private void MakeLevel0()

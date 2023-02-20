@@ -4,6 +4,18 @@ using UnityEngine;
 public class BottleController : MonoBehaviour
 {
     [SerializeField] private Color[] bottleColors;
+
+    [SerializeField] private int[] colorsIndex;
+
+    //paleta com as cores normais
+    [SerializeField] private Color[] normalColorsPallet;
+    //pateta com as cores para pessoas com protanopia
+    [SerializeField] private Color[] protanopiaColorsPallet;
+    //paleta com as cores para pessoas com tritanopia
+    [SerializeField] private Color[] tritanopiaColorsPallet;
+    //paleta com as cores para pessoas com deuteranopia
+    [SerializeField] private Color[] deuteranopiaColorsPallet;
+
     [SerializeField] private SpriteRenderer bottleMaskSR;
 
     [SerializeField] private float timeToRotate = 1f;
@@ -19,7 +31,7 @@ public class BottleController : MonoBehaviour
     private int rotationIndex = 0;
 
     //[Range(0, 4)]
-    public int numberOfColorsInBottle; //{ get; private set; }
+    public int numberOfColorsInBottle;
 
     public Color topColor { get; private set; }
     private int numberOfTopColorLayers = 1;
@@ -43,7 +55,6 @@ public class BottleController : MonoBehaviour
 
     //a quantidade de cores que vai ter no outro recipiente - para resolver o bug gráfico da quantidade de cores
     private int newNumberOfColorsInOtherBottle;
-
 
     //variaveis para condição de vitoria
     private BottlesController bc;
@@ -72,13 +83,6 @@ public class BottleController : MonoBehaviour
         UpdateTopColorValues();
     }
 
-    public void setIndex(int value, BottlesController bottlesController/*, GameController gameController*/)
-    {
-        index = value;
-        bc = bottlesController;
-        //gC = gameController;
-    }
-
     //método que vai fazer a transferência de líquidos
     public void StartColorTransfer()
     {
@@ -105,8 +109,6 @@ public class BottleController : MonoBehaviour
         //transferência lógica
         for (int i = 0; i < numberOfColorsToTransfer; i++)
         {
-            //bottleControllerRef.bottleColors[bottleControllerRef.numberOfColorsInBottle + i] = topColor;
-
             bottleControllerRef.SetColors(bottleControllerRef.numberOfColorsInBottle + i, topColor);
         }
 
@@ -118,6 +120,9 @@ public class BottleController : MonoBehaviour
                 bottleControllerRef.SetColors(i, topColor);
             }
         }
+
+        //passando as referencias das cores
+        bottleControllerRef.SetTransferredColorsIndex(colorsIndex[numberOfColorsInBottle - 1]);
 
         //método que vai enviar para o material as cores dentro do recipiente
         bottleControllerRef.UpdateColorsOnShader();
@@ -135,19 +140,14 @@ public class BottleController : MonoBehaviour
         StartCoroutine(MoveBottle());
     }
 
-    public bool GetUnderAnimation()
+    public void ReloadColors(int[] colors, int value)
     {
-        return underAnimation;
-    }
+        colorsIndex = colors;//array que vai indicar as cores que devem ser usadas
 
-    public Color[] GetColors()
-    {
-        return new Color[] { bottleColors[0], bottleColors[1], bottleColors[2], bottleColors[3] };
-    }
+        numberOfColorsInBottle = value;//quantidade de cores na bottle
 
-    private void SetColors(int pos, Color color)
-    {
-        bottleColors[pos] = color;
+        //chamando o método que vai recarregar as corres
+        LoadColorsPallet();
     }
 
     //método que vai enviar para o material as cores dentro do recipiente
@@ -264,18 +264,6 @@ public class BottleController : MonoBehaviour
         }
     }
 
-    //método que vai chamar a animação de seleção
-    public void Selected()
-    {
-        AnimateBottle(new Vector3(transform.position.x, transform.position.y + 0.15f, transform.position.z), 0.5f);
-    }
-
-    //método que vai chamar a animação de des seleção
-    public void Unselected()
-    {
-        AnimateBottle(new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z), 0.5f);
-    }
-
     public bool CheckIfItsDone()
     {
         if (numberOfColorsInBottle == 4)
@@ -290,9 +278,91 @@ public class BottleController : MonoBehaviour
         return false;
     }
 
-    public bool CheckIfItsAnimated()
+    public void SetTransferredColorsIndex(int value)
+    {
+        for (int x = numberOfColorsInBottle; x < 4; x++)
+        {
+            colorsIndex[x] = value;
+        }
+    }
+
+    //método que vai carregar as corres de acordo com a paleta selecionada
+    public void LoadColorsPallet()
+    {
+        //criando o array de cores
+        for (int x = 0; x < 4; x++)
+        {
+            if (GameManager.Instance.selectedColorPalette == 1)//paleta de cor normais
+                bottleColors[x] = normalColorsPallet[colorsIndex[x]];
+
+            else if (GameManager.Instance.selectedColorPalette == 2)//paleta de cor protanopia
+                bottleColors[x] = protanopiaColorsPallet[colorsIndex[x]];
+
+            else if (GameManager.Instance.selectedColorPalette == 3)//paleta de cor tritanopia
+                bottleColors[x] = tritanopiaColorsPallet[colorsIndex[x]];
+
+            else if (GameManager.Instance.selectedColorPalette == 4)//paleta de cor deuteranopia
+                bottleColors[x] = deuteranopiaColorsPallet[colorsIndex[x]];
+        }
+
+        //enviando as cores para o shader
+        UpdateColorsOnShader();
+
+        //enviando o fillAmount
+        bottleMaskSR.material.SetFloat("_FillAmount", fillAmounts[numberOfColorsInBottle]);
+
+        //refazendo o top color values
+        UpdateTopColorValues();
+    }
+
+    //método que vai chamar a animação de seleção
+    public void Selected()
+    {
+        AnimateBottle(new Vector3(transform.position.x, transform.position.y + 0.15f, transform.position.z), 0.5f);
+    }
+
+    //método que vai chamar a animação de des seleção
+    public void Unselected()
+    {
+        AnimateBottle(new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z), 0.5f);
+    }
+
+    //========================================= Sets & Gets =========================================
+
+    public void setIndex(int value, BottlesController bottlesController/*, GameController gameController*/)
+    {
+        index = value;
+        bc = bottlesController;
+    }
+
+    public void SetColors(int pos, Color color)
+    {
+        bottleColors[pos] = color;
+    }
+
+    public void SetIsBeingFilled(bool value)
+    {
+        isBeingFilled = value;
+    }
+
+    //método que vai receber as cores desse recipiente no momento em que ele estiver sendo criado
+    public void SetColorsIndex(int[] colors, int numberOfColors)
+    {
+        numberOfColorsInBottle = numberOfColors;//numero de cores nesse recipiente
+
+        colorsIndex = colors;//array com as corres
+
+        LoadColorsPallet();//carregando as cores de acordo com a paleta selecionada
+    }
+
+    public bool GetUnderAnimation()
     {
         return underAnimation;
+    }
+
+    public int[] GetColors()
+    {
+        return colorsIndex;
     }
 
     public bool GetIsFilling()
@@ -305,32 +375,7 @@ public class BottleController : MonoBehaviour
         return isBeingFilled;
     }
 
-    public void SetIsBeingFilled(bool value)
-    {
-        isBeingFilled = value;
-    }
-
-    public void SetColors(Color[] colors, int numberOfColors)
-    {
-        numberOfColorsInBottle = numberOfColors;
-
-        int x = 0;
-
-        foreach (Color color in colors)
-        {
-            bottleColors[x] = color;
-            x++;
-        }
-
-        //enviando as cores para o shader
-        UpdateColorsOnShader();
-
-        //enviando o fillAmount
-        bottleMaskSR.material.SetFloat("_FillAmount", fillAmounts[numberOfColorsInBottle]);
-
-        //refazendo o top color values
-        UpdateTopColorValues();
-    }
+    //========================================== ANIMAÇÕES ========================================== 
 
     //animação que vai rotacionar o recipiente
     private IEnumerator RotateBottle()
@@ -397,8 +442,6 @@ public class BottleController : MonoBehaviour
 
         StartCoroutine(RotateBottleBack());
     }
-
-
 
     //animação que vai rotacionar de volta
     private IEnumerator RotateBottleBack()
