@@ -33,6 +33,14 @@ public class Menu : MonoBehaviour
     [SerializeField] private GameObject tritanopiaColorPallet;
     [SerializeField] private GameObject deuteranopiaColorPallet;
 
+    //seleção de imagem de fundo
+    [SerializeField] private GameObject bg1Selected;
+    [SerializeField] private GameObject bg1Unselected;
+    [SerializeField] private GameObject bg2Selected;
+    [SerializeField] private GameObject bg2Unselected;
+    [SerializeField] private GameObject bg1;
+    [SerializeField] private GameObject bg2;
+
     public void MenuButton()
     {
         if (!GameManager.Instance.gamePause)
@@ -86,7 +94,7 @@ public class Menu : MonoBehaviour
     public void ColorsConfigButtons(int value)
     {
         //enviando para o controlador dos recipientes qual paleta de cores foi selecionada
-        GameManager.Instance.SetSelectedColorPalette(value);
+        GameManager.Instance.selectedColorPalette = value;
 
         //método que vai alterar o sistema de cores do jogo na partida atual
         bc.ChangeColorSystem();
@@ -147,4 +155,26 @@ public class Menu : MonoBehaviour
         deuteranopiaColorPallet.SetActive(deuteranopia);
     }
 
+    public void SelectBackgroudImage(int value)
+    {
+        GameManager.Instance.backgroundimage = value;
+
+        bool bgImage1 = false;
+        bool bgImage2 = false;
+
+        if (value == 1)
+            bgImage1 = true;
+
+        else if (value == 2)
+            bgImage2 = true;
+
+        bg1Selected.SetActive(bgImage1);
+        bg1Unselected.SetActive(!bgImage1);
+
+        bg2Selected.SetActive(bgImage2);
+        bg2Unselected.SetActive(!bgImage2);
+
+        bg1.SetActive(bgImage1);
+        bg2.SetActive(bgImage2);
+    }
 }

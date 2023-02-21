@@ -362,7 +362,14 @@ public class BottleController : MonoBehaviour
 
     public int[] GetColors()
     {
-        return colorsIndex;
+        int[] colors = new int[4];
+
+        for (int x = 0; x < 4; x++)
+        {
+            colors[x] = colorsIndex [x];
+        }
+
+        return colors;
     }
 
     public bool GetIsFilling()
@@ -484,9 +491,6 @@ public class BottleController : MonoBehaviour
             bc.VerifyVictory();
         }
 
-        //indica que o outro recipiente não está mais enchendo
-        bottleControllerRef.SetIsBeingFilled(false);
-
         StartCoroutine(MoveBottleBack());
     }
 
@@ -543,7 +547,11 @@ public class BottleController : MonoBehaviour
         transform.GetComponent<SpriteRenderer>().sortingOrder -= 2;
         bottleMaskSR.sortingOrder -= 2;
 
+        //indica que esse recipiente não está mais enchendo outro recipiente
         isFilling = false;
+
+        //indica que o outro recipiente não está mais recebendo liquido
+        bottleControllerRef.SetIsBeingFilled(false);
     }
 
     public void AnimateBottle(Vector3 finalPosition, float duration)

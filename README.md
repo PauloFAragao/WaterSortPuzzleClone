@@ -14,3 +14,6 @@ Fases:
 <br>
 link para o pacote de botões e imagens:
 	<br>https://www.gameart2d.com/free-game-gui.html
+<br>
+link para a segunda imagem de fundo:
+	<br>https://emotioncard.com.br/fundo-preto-plano-de-fundo/

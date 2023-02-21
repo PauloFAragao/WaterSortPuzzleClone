@@ -1,6 +1,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -10,7 +11,10 @@ public class GameManager : MonoBehaviour
     public bool gamePause;
 
     //qual esquema da cores deve ser usado
-    public int selectedColorPalette { get; private set; }
+    public int selectedColorPalette;
+
+    //qual imagem de fundo está selecionada
+    public int backgroundimage;
 
     private void Awake()
     {
@@ -39,6 +43,9 @@ public class GameManager : MonoBehaviour
         //paleta de cores inicial
         selectedColorPalette = 1;
 
+        //imagem de fundo inicial
+        backgroundimage = 1;
+
         level = 0;
 
     }
@@ -63,9 +70,5 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
-    public void SetSelectedColorPalette(int value)
-    {
-        selectedColorPalette = value;
-    }
 
 }

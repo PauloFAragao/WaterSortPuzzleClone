@@ -136,7 +136,7 @@ public class BottlesController : MonoBehaviour
             if (availableUndo == 5)
             {
                 //copiando o histórico 
-                for (int x = 0; x < availableUndo - 1; x++)
+                for (int x = 0; x < 4; x++)
                 {
                     historic[x] = historic[x + 1];
                 }
@@ -149,7 +149,6 @@ public class BottlesController : MonoBehaviour
 
         if (availableUndo < 5)
             availableUndo++;
-
         ActiveUndoButton.SetActive(true);
         InactiveUndoButton.SetActive(false);
     }
