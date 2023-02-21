@@ -58,14 +58,14 @@ public class GameController : MonoBehaviour
                     {
                         FirstBottle = hit.collider.GetComponent<BottleController>();
 
-                        if (FirstBottle.GetIsBeingFilled() || FirstBottle.GetIsFilling())
+                        if (FirstBottle.GetIsBeingFilled() || FirstBottle.GetIsFilling() || FirstBottle.numberOfColorsInBottle == 0 || FirstBottle.CheckIfItsDone())
                         {
                             FirstBottle = null;
                             return;
                         }
 
-                        if (FirstBottle.numberOfColorsInBottle == 0)
-                            FirstBottle = null;
+                        // if (FirstBottle.numberOfColorsInBottle == 0)
+                        //     FirstBottle = null;
 
                         else
                             FirstBottle.Selected();

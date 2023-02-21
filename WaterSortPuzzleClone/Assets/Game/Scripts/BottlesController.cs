@@ -149,6 +149,7 @@ public class BottlesController : MonoBehaviour
 
         if (availableUndo < 5)
             availableUndo++;
+            
         ActiveUndoButton.SetActive(true);
         InactiveUndoButton.SetActive(false);
     }
@@ -174,6 +175,8 @@ public class BottlesController : MonoBehaviour
             bottlesAmount++;//adicionando 1 ao contador de recipientes em tela
 
             RelocateBottles();//reposicionando os recipientes em tela
+
+            GameController.Instance.AddMove();//contando uma jogada ao adicionar uma garrafa
 
             if (maxBottlesAmount == bottlesAmount)
             {

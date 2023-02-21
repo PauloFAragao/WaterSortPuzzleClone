@@ -19,7 +19,7 @@ public class BottleController : MonoBehaviour
     [SerializeField] private SpriteRenderer bottleMaskSR;
 
     [SerializeField] private float timeToRotate = 1f;
-    [SerializeField] private float moveAnimationTime = 1f;
+    [SerializeField] private float moveAnimationTime = 0.5f;
 
     [SerializeField] private AnimationCurve ScaleAndRotationMultiplierCurve;
     [SerializeField] private AnimationCurve FillAmountCurve;
@@ -60,6 +60,8 @@ public class BottleController : MonoBehaviour
     private BottlesController bc;
     public int index { get; private set; }
     private bool underAnimation;
+
+    public StopperController stopper;
 
     private void Awake()
     {
@@ -318,13 +320,13 @@ public class BottleController : MonoBehaviour
     //método que vai chamar a animação de seleção
     public void Selected()
     {
-        AnimateBottle(new Vector3(transform.position.x, transform.position.y + 0.15f, transform.position.z), 0.5f);
+        AnimateBottle(new Vector3(transform.position.x, transform.position.y + 0.15f, transform.position.z), 0.25f);
     }
 
     //método que vai chamar a animação de des seleção
     public void Unselected()
     {
-        AnimateBottle(new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z), 0.5f);
+        AnimateBottle(new Vector3(transform.position.x, transform.position.y - 0.15f, transform.position.z), 0.25f);
     }
 
     //========================================= Sets & Gets =========================================
@@ -488,7 +490,9 @@ public class BottleController : MonoBehaviour
         //verificando se o outro recipiente está cheio
         if (bottleControllerRef.CheckIfItsDone())
         {
-            bc.VerifyVictory();
+            bc.VerifyVictory();//verificando se o jogo acabou
+
+            bottleControllerRef.stopper.Animate();//mandando animar a rolha
         }
 
         StartCoroutine(MoveBottleBack());
@@ -512,7 +516,7 @@ public class BottleController : MonoBehaviour
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, (t / moveAnimationTime));
 
-            t += Time.deltaTime * 2;
+            t += Time.deltaTime;
 
             yield return new WaitForEndOfFrame();
         }
@@ -537,7 +541,7 @@ public class BottleController : MonoBehaviour
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, (t / moveAnimationTime));
 
-            t += Time.deltaTime * 2;
+            t += Time.deltaTime;
 
             yield return new WaitForEndOfFrame();
         }
@@ -570,7 +574,7 @@ public class BottleController : MonoBehaviour
         {
             transform.position = Vector3.Lerp(inicialPosition, finalPosition, (t / duration));
 
-            t += Time.deltaTime * 2;
+            t += Time.deltaTime;
 
             yield return new WaitForEndOfFrame();
         }
