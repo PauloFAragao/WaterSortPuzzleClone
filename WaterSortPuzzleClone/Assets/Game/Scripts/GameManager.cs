@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         //imagem de fundo inicial
         //backgroundimage = 1;
 
-        level = 0;
+        //level = 0;
     }
 
     private void OnDestroy()

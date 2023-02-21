@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class StopperController : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     private bool anim = false;
-
     public void Animate()
     {
         if (!anim)
@@ -13,6 +13,11 @@ public class StopperController : MonoBehaviour
             this.gameObject.SetActive(true);
             StartCoroutine(MoveAnimation());
         }
+    }
+
+    private void PlayEffect()
+    {
+        animator.Play("DoneEffect");
     }
 
     //animação de movimentação
@@ -45,5 +50,7 @@ public class StopperController : MonoBehaviour
         }
 
         transform.position = finalPosition;
+
+        PlayEffect();
     }
 }
