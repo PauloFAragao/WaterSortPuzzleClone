@@ -96,6 +96,9 @@ public class Menu : MonoBehaviour
         //enviando para o controlador dos recipientes qual paleta de cores foi selecionada
         GameManager.Instance.selectedColorPalette = value;
 
+        //salvando dados
+        GameManager.Instance.SaveColorPallet();
+
         //método que vai alterar o sistema de cores do jogo na partida atual
         bc.ChangeColorSystem();
 
@@ -157,7 +160,11 @@ public class Menu : MonoBehaviour
 
     public void SelectBackgroudImage(int value)
     {
+        //enviando dados para o game manager
         GameManager.Instance.backgroundimage = value;
+
+        //salvando dados
+        GameManager.Instance.SaveBackGroundImage();
 
         bool bgImage1 = false;
         bool bgImage2 = false;

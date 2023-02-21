@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        //setando fps para no maximo 60
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+
         if (Instance != null)
             DestroyImmediate(gameObject);
 
@@ -40,14 +44,16 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        //carregando dados do jogo
+        LoadData();
+
         //paleta de cores inicial
-        selectedColorPalette = 1;
+        //selectedColorPalette = 1;
 
         //imagem de fundo inicial
-        backgroundimage = 1;
+        //backgroundimage = 1;
 
-        level = 0;
-
+        //level = 0;
     }
 
     private void OnDestroy()
@@ -61,6 +67,8 @@ public class GameManager : MonoBehaviour
 
         level++;//incrementando o level
 
+        SaveData();//salvando dados
+
         //carregar o level
         SceneManager.LoadScene("SampleScene");
     }
@@ -68,6 +76,40 @@ public class GameManager : MonoBehaviour
     public void Reload()
     {
         SceneManager.LoadScene("SampleScene");
+    }
+
+    private void SaveData()
+    {
+        //salvando o level
+        PlayerPrefs.SetInt("level", level);
+    }
+
+    public void SaveColorPallet()
+    {
+        //salvando a paleta de cores selecionada
+        PlayerPrefs.SetInt("selectedColorPalette", selectedColorPalette);
+    }
+
+    public void SaveBackGroundImage()
+    {
+        //salvando a imagem de fundo selecionada
+        PlayerPrefs.SetInt("backgroundimage", backgroundimage);
+    }
+
+    private void LoadData()
+    {
+        //carregando o level
+        level = PlayerPrefs.GetInt("level");
+
+        //carregando a paleta de cores selecionada
+        selectedColorPalette = PlayerPrefs.GetInt("selectedColorPalette");
+        if (selectedColorPalette == 0)
+            selectedColorPalette = 1;
+
+        //carregando a imagem de fundo selecionada
+        backgroundimage = PlayerPrefs.GetInt("backgroundimage");
+        if (backgroundimage == 0)
+            backgroundimage = 1;
     }
 
 
