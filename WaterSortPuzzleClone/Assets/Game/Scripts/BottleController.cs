@@ -368,7 +368,7 @@ public class BottleController : MonoBehaviour
 
         for (int x = 0; x < 4; x++)
         {
-            colors[x] = colorsIndex [x];
+            colors[x] = colorsIndex[x];
         }
 
         return colors;
@@ -379,6 +379,10 @@ public class BottleController : MonoBehaviour
         return isFilling;
     }
 
+    ///<summary>
+    ///Método usado para verificar se o recipiente está em processo de receber liquido de outro recipiente
+    ///-Esse método retorna um bool
+    ///</summary>
     public bool GetIsBeingFilled()
     {
         return isBeingFilled;
@@ -492,7 +496,8 @@ public class BottleController : MonoBehaviour
         {
             bc.VerifyVictory();//verificando se o jogo acabou
 
-            bottleControllerRef.stopper.Animate();//mandando animar a rolha
+            if (!bc.SomeBottleIsUnderAnimation())
+                bottleControllerRef.stopper.Animate();//mandando animar a rolha
         }
 
         StartCoroutine(MoveBottleBack());

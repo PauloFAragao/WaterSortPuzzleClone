@@ -155,7 +155,7 @@ public class BottlesController : MonoBehaviour
     }
 
     //método para verificar se alguma bottle está executando alguma animação
-    private bool SomeBottleIsUnderAnimation()
+    public bool SomeBottleIsUnderAnimation()
     {
         for (int x = 0; x < bottlesAmount; x++)
         {
