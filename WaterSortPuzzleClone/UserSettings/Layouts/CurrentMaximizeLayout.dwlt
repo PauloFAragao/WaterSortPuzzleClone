@@ -142,7 +142,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 25
+  controlID: 341
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 3a710000
+      m_SelectedIDs: be1b0000
       m_LastClickedID: 0
       m_ExpandedIDs: 28fbffff
       m_RenameOverlay:
@@ -218,7 +218,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 4}
+        m_ClientGUIView: {fileID: 6}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -293,7 +293,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Game/Sprites
+    - Assets/Game/Scripts
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 58630000
     m_LastClickedID: 25432
-    m_ExpandedIDs: 00000000d8700000da700000dc700000de700000
+    m_ExpandedIDs: ffffffff00000000d8700000da700000dc700000de700000e0700000e2700000e4700000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -333,9 +333,9 @@ MonoBehaviour:
       m_ResourceFile: 
   m_AssetTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 3a710000
-    m_LastClickedID: 28986
-    m_ExpandedIDs: ffffffff00000000d8700000da700000dc700000de7000003a710000
+    m_SelectedIDs: be1b0000
+    m_LastClickedID: 7102
+    m_ExpandedIDs: ffffffff00000000d8700000da700000dc700000de700000e0700000e2700000e4700000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -360,8 +360,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 3a710000
-    m_LastClickedInstanceID: 28986
+    m_SelectedInstanceIDs: be1b0000
+    m_LastClickedInstanceID: 7102
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
@@ -692,9 +692,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 357.80896, y: 636.82025, z: 2.6126544}
+    m_Target: {x: 366.99252, y: 636.8202, z: 0}
     speed: 2
-    m_Value: {x: 357.80896, y: 636.82025, z: 2.6126544}
+    m_Value: {x: 366.99252, y: 636.8202, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -745,9 +745,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 667.34393
+    m_Target: 1003.1092
     speed: 2
-    m_Value: 667.34393
+    m_Value: 1003.1092
   m_Ortho:
     m_Target: 1
     speed: 2

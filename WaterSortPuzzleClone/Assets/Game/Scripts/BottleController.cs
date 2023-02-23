@@ -62,13 +62,14 @@ public class BottleController : MonoBehaviour
     private bool underAnimation;
 
     public StopperController stopper;
+    private bool stopperCommand;//comando para assim que possível ativar a rolha
 
     private void Awake()
     {
         bottleColors = new Color[4];
     }
 
-    void Start()
+    private void Start()
     {
         //aqui envia para o material o valor contido em fillAmounts na posição numberOfColorsInBottle
         //fillAmounts guarda os valores de tamanho do material
@@ -83,6 +84,15 @@ public class BottleController : MonoBehaviour
 
         //método que vai verificar a quantidade de líquidos dentro do recipiente e alterar valores dentro das variáveis para o funcionamento do jogo
         UpdateTopColorValues();
+    }
+
+    private void Update()
+    {
+        if (stopperCommand && isBeingFilled)
+        {
+            stopperCommand = false;
+            stopper.Animate();//mandando animar a rolha
+        }
     }
 
     //método que vai fazer a transferência de líquidos
@@ -357,6 +367,11 @@ public class BottleController : MonoBehaviour
         LoadColorsPallet();//carregando as cores de acordo com a paleta selecionada
     }
 
+    public void SetStopperCommand()
+    {
+        stopperCommand = true;
+    }
+
     public bool GetUnderAnimation()
     {
         return underAnimation;
@@ -496,7 +511,11 @@ public class BottleController : MonoBehaviour
         {
             bc.VerifyVictory();//verificando se o jogo acabou
 
-            if (!bc.SomeBottleIsUnderAnimation())
+            //if (!bc.SomeBottleIsUnderAnimation())
+            if (!bottleControllerRef.GetIsBeingFilled())//se a outra bottle está sendo enchida
+                bottleControllerRef.SetStopperCommand();
+
+            else//se não estiver sendo enchida
                 bottleControllerRef.stopper.Animate();//mandando animar a rolha
         }
 

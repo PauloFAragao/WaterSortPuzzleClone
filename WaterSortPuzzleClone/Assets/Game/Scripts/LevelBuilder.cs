@@ -423,6 +423,10 @@ public class LevelBuilder : MonoBehaviour
                 MakeLevel99();
                 break;
 
+            case 100://nível 100
+                MakeLevel100();
+                break;
+
             default:
                 break;
         }
@@ -3935,6 +3939,54 @@ public class LevelBuilder : MonoBehaviour
         bottlesController.SpawnBottle();
 
         //recipiente 10
+        bottlesController.SpawnBottle();
+    }
+
+    private void MakeLevel100()
+    {
+        //setando valores importantes
+        bottlesController.SetBottlesAmount(14, 12);
+
+        //recipiente 0
+        bottlesController.SpawnBottle(0, 4, 1, 11);
+
+        //recipiente 1
+        bottlesController.SpawnBottle(10, 6, 5, 5);
+
+        //recipiente 2
+        bottlesController.SpawnBottle(10, 2, 7, 7);
+
+        //recipiente 3
+        bottlesController.SpawnBottle(0, 3, 9, 4);
+
+        //recipiente 4
+        bottlesController.SpawnBottle(1, 11, 8, 6);
+
+        //recipiente 5
+        bottlesController.SpawnBottle(9, 2, 6, 4);
+
+        //recipiente 6
+        bottlesController.SpawnBottle(1, 0, 6, 10);
+
+        //recipiente 7
+        bottlesController.SpawnBottle(8, 3, 0, 1);
+
+        //recipiente 8
+        bottlesController.SpawnBottle(2, 5, 4, 11);
+
+        //recipiente 9
+        bottlesController.SpawnBottle(9, 7, 2, 5);
+
+        //recipiente 10
+        bottlesController.SpawnBottle(9, 3, 8, 10);
+
+        //recipiente 11
+        bottlesController.SpawnBottle(3, 7, 8, 11);
+
+        //recipiente 12
+        bottlesController.SpawnBottle();
+
+        //recipiente 13
         bottlesController.SpawnBottle();
     }
 }
