@@ -451,6 +451,8 @@ public class BottleController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        Debug.Log("Tempo: " + t);
+
         angleValue = directionMultiplier * rotationValues[rotationIndex];
 
         bottleMaskSR.material.SetFloat("_SARM", ScaleAndRotationMultiplierCurve.Evaluate(angleValue));
