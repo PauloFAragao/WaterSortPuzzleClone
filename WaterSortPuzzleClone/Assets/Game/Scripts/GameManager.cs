@@ -65,9 +65,9 @@ public class GameManager : MonoBehaviour
     {
         gamePause = false;//retirando o game pause
 
-        level++;//incrementando o level
+        //level++;//incrementando o level
 
-        SaveData();//salvando dados
+        //SaveData();//salvando dados
 
         //carregar o level
         SceneManager.LoadScene("SampleScene");
@@ -78,10 +78,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
-    private void SaveData()
+    public void SaveData()
     {
         //salvando o level
-        PlayerPrefs.SetInt("level", level);
+        PlayerPrefs.SetInt("level", ++level);
     }
 
     public void SaveColorPallet()

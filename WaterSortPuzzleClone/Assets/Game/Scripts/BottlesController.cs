@@ -86,6 +86,9 @@ public class BottlesController : MonoBehaviour
     //método que vai ser chamado para carregar o novo level
     private void LoadNextLevel()
     {
+        //salvando o level do jogo
+        GameManager.Instance.SaveData();
+        
         GameManager.Instance.gamePause = true;
         GameController.Instance.NextLevel();
     }
